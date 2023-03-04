@@ -42,6 +42,9 @@ ULTRASONIC_GPIO_ECHO = 22
 MICRO_SERVO_PIN = 27
 BIG_SERVO_PIN = 12
 DEFAULT_HAPTIC_VELOCITY = 0
+WHEEL_OBJECT_OFFSET_ANGLE = 45 #in degrees
+DISTANCE_THRESHOLD = 100 #in cm
+HAPTIC_DISTANCE_THRESHOLD = 200 #in cm
 
 # ------ Class ----------
 class Supercane():
@@ -50,6 +53,20 @@ class Supercane():
         self.kit = MotorKit()   #HAT Controller Kit
         self.micro_servo = AngularServo(MICRO_SERVO_PIN, min_angle=-90, max_angle=90)
         self.big_servo = AngularServo(BIG_SERVO_PIN, min_angle=-90, max_angle=90)
+
+        #Ultrasonic
+        GPIO.setmode(GPIO.BCM)
+        # set GPIO Pins
+        self.GPIO_TRIGGER = ULTRASONIC_GPIO_TRIGGER
+        self.GPIO_ECHO = ULTRASONIC_GPIO_ECHO
+        # set GPIO direction (IN / OUT)
+        GPIO.setup(self.GPIO_TRIGGER, GPIO.OUT)
+        GPIO.setup(self.GPIO_ECHO, GPIO.IN)
+
+
+
+        self.location = []
+
         self.main()
 
 
@@ -57,47 +74,65 @@ class Supercane():
         angle = 0
         angle_polarity = 0
         while True:
+            sleep(1)
+
+            #Micro Servo
             if angle_polarity == 0:
                 angle += 10
                 if angle >= 180:
                     angle_polarity = 1
-
             else:
                 angle -= 10
                 if angle <= 0:
                     angle_polarity = 0
-
             ang = angle - 90
-
             self.set_micro_servo(ang)
             print(ang)
-            sleep(1)
+            self.location[0] = ang
+
+            #Read Distance
+            distance_ultra = self.get_ultrasonic_distance()
+            distance_camera = self.get_camera_data()
+            self.location[1] = distance_ultra
+
+            #Wheel feedback
+            if self.location[1] < DISTANCE_THRESHOLD:
+                big_servo_angle = 0
+                if ang > 0:
+                    big_servo_angle = self.location[0] - WHEEL_OBJECT_OFFSET_ANGLE
+                else:
+                    big_servo_angle = self.location[0] - WHEEL_OBJECT_OFFSET_ANGLE
+                self.set_big_servo(big_servo_angle)
+
+            #Haptic Feedback
+            if self.location[1] < HAPTIC_DISTANCE_THRESHOLD:
+                if self.location[0] < -45:
+                    self.set_haptic_1()
+                elif self.location[0] > 45:
+                    self.set_haptic_3()
+                else:
+                    self.set_haptic_2()
+
+            #Return audio
+            print(self.location)
+
 
     def get_ultrasonic_distance(self):
-        GPIO.setmode(GPIO.BCM)
 
-        # set GPIO Pins
-        GPIO_TRIGGER = ULTRASONIC_GPIO_TRIGGER
-        GPIO_ECHO = ULTRASONIC_GPIO_ECHO
-
-        # set GPIO direction (IN / OUT)
-        GPIO.setup(GPIO_TRIGGER, GPIO.OUT)
-        GPIO.setup(GPIO_ECHO, GPIO.IN)
-
-        GPIO.output(GPIO_TRIGGER, True)
+        GPIO.output(self.GPIO_TRIGGER, True)
 
         # set Trigger after 0.01ms to LOW
         time.sleep(0.00001)
-        GPIO.output(GPIO_TRIGGER, False)
+        GPIO.output(self.GPIO_TRIGGER, False)
         StartTime = time.time()
         StopTime = time.time()
 
         # save StartTime
-        while GPIO.input(GPIO_ECHO) == 0:
+        while GPIO.input(self.GPIO_ECHO) == 0:
             StartTime = time.time()
 
         # save time of arrival
-        while GPIO.input(GPIO_ECHO) == 1:
+        while GPIO.input(self.GPIO_ECHO) == 1:
             StopTime = time.time()
 
         TimeElapsed = StopTime - StartTime
