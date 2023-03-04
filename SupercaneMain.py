@@ -54,10 +54,10 @@ class Supercane():
 
     def main(self):
         while True:
-            value = sin_values()
-            print(value)
-            sleep(1)
-            self.set_micro_servo(value)
+            # value = sin_values()
+            # print(value)
+            # sleep(1)
+            self.set_micro_servo()
 
 
     def get_ultrasonic_distance(self):
@@ -102,9 +102,14 @@ class Supercane():
 
         return None
 
-    def set_micro_servo(self, degree):
-        servo = AngularServo(MICRO_SERVO_PIN, min_angle=-90, max_angle=90)
-        servo.angle = degree
+    def set_micro_servo(self):
+        # servo = AngularServo(MICRO_SERVO_PIN, min_angle=-90, max_angle=90)
+        # servo.angle = degree
+
+        servo = Servo(MICRO_SERVO_PIN)
+
+        servo.source = sin_values()
+        servo.source_delay = 0.03
 
     def set_big_servo(self, degree):
         servo = AngularServo(BIG_SERVO_PIN, min_angle=-90, max_angle=90)
