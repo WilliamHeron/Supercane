@@ -39,14 +39,25 @@ import time
 # ----- Global Variables -----
 ULTRASONIC_GPIO_TRIGGER = 17
 ULTRASONIC_GPIO_ECHO = 22
+MICRO_SERVO_PIN = 17
+BIG_SERVO_PIN = 12
+DEFAULT_HAPTIC_VELOCITY = 0
 
 # ------ Class ----------
 class Supercane():
 
     def __init__(self):
-        print("do nothing yet")
-        dist = self.get_ultrasonic_distance()
-        print("Measured Distance = %.1f cm" % dist)
+        self.kit = MotorKit()   #HAT Controller Kit
+
+        self.main()
+
+
+    def main(self):
+        while True:
+            value = sin_values()
+            print(value)
+            sleep(1)
+            self.set_micro_servo(value)
 
 
     def get_ultrasonic_distance(self):
@@ -60,13 +71,11 @@ class Supercane():
         GPIO.setup(GPIO_TRIGGER, GPIO.OUT)
         GPIO.setup(GPIO_ECHO, GPIO.IN)
 
-
         GPIO.output(GPIO_TRIGGER, True)
 
         # set Trigger after 0.01ms to LOW
         time.sleep(0.00001)
         GPIO.output(GPIO_TRIGGER, False)
-
         StartTime = time.time()
         StopTime = time.time()
 
@@ -89,21 +98,31 @@ class Supercane():
 
         return None
 
-
     def get_GPS_data(self):
 
         return None
 
     def set_micro_servo(self, degree):
-        servo = AngularServo(17, min_angle=-90, max_angle=90)
-
-        # servo.source = sin_values()
+        servo = AngularServo(MICRO_SERVO_PIN, min_angle=-90, max_angle=90)
         servo.angle = degree
-        # servo.source_delay = 0.3
 
-        # pause()
+    def set_big_servo(self, degree):
+        servo = AngularServo(BIG_SERVO_PIN, min_angle=-90, max_angle=90)
+        servo.angle = degree
 
+    def set_haptic_1(self, velocity=DEFAULT_HAPTIC_VELOCITY):
+        self.kit.motor1.throttle = velocity
 
+    def set_haptic_2(self, velocity=DEFAULT_HAPTIC_VELOCITY):
+        self.kit.motor2.throttle = velocity
+
+    def set_haptic_3(self, velocity=DEFAULT_HAPTIC_VELOCITY):
+        self.kit.motor3.throttle = velocity
+
+    def set_audio(self, command):
+        print("doesnt work yet")
+
+    # TESTS
     def big_servo_test(self):
 
         servo = Servo(12)
@@ -113,7 +132,7 @@ class Supercane():
 
         pause()
 
-    def micro_servp_test(self):
+    def micro_servo_test(self):
 
         servo = Servo(17)
 
@@ -121,7 +140,6 @@ class Supercane():
         servo.source_delay = 0.3
 
         pause()
-
 
     def motor_hat_test(self):
 
@@ -141,7 +159,6 @@ class Supercane():
             time.sleep(0.5)
             kit.motor3.throttle = 0
             time.sleep(1)
-
 
     def ultrasonic_sensor_test(self):
         # GPIO Mode (BOARD / BCM)
