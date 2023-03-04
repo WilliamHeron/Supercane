@@ -49,7 +49,7 @@ class Supercane():
     def __init__(self):
         self.kit = MotorKit()   #HAT Controller Kit
 
-        self.main()
+        # self.main()
 
 
     def main(self):
@@ -213,6 +213,7 @@ class Supercane():
 
 if __name__ == "__main__":
     cane = Supercane()
+    cane.micro_servo_test()
     # cane.ultrasonic_sensor_test()
 
 
