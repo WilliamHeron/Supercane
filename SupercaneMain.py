@@ -101,7 +101,7 @@ class Supercane():
                 if ang > 0:
                     big_servo_angle = self.location[0] - WHEEL_OBJECT_OFFSET_ANGLE
                 else:
-                    big_servo_angle = self.location[0] - WHEEL_OBJECT_OFFSET_ANGLE
+                    big_servo_angle = self.location[0] + WHEEL_OBJECT_OFFSET_ANGLE
                 self.set_big_servo(big_servo_angle)
 
             #Haptic Feedback
