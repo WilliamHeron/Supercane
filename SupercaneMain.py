@@ -107,11 +107,11 @@ class Supercane():
             #Haptic Feedback
             if self.location[1] < HAPTIC_DISTANCE_THRESHOLD:
                 if self.location[0] < -45:
-                    self.set_haptic_1()
+                    self.set_haptic_1(1)
                 elif self.location[0] > 45:
-                    self.set_haptic_3()
+                    self.set_haptic_3(1)
                 else:
-                    self.set_haptic_2()
+                    self.set_haptic_2(1)
 
             #Return audio
             print(self.location)
