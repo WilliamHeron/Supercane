@@ -48,20 +48,29 @@ class Supercane():
 
     def __init__(self):
         self.kit = MotorKit()   #HAT Controller Kit
-
-        # self.main()
+        self.micro_servo = AngularServo(MICRO_SERVO_PIN, min_angle=-90, max_angle=90)
+        self.big_servo = AngularServo(BIG_SERVO_PIN, min_angle=-90, max_angle=90)
+        self.main()
 
 
     def main(self):
         angle = 0
+        ang_pol = 0
         while True:
 
-            angle += 10
+            if ang_pol%1 == 0:
+                angle += 10
+            else:
+                angle -= 10
+
+            if angle % 180 == 0:
+                ang_pol += 1
+
             ang = angle % 180 - 90
 
             self.set_micro_servo(ang)
             print(ang)
-            sleep(0.5)
+            sleep(1)
 
     def get_ultrasonic_distance(self):
         GPIO.setmode(GPIO.BCM)
@@ -106,13 +115,12 @@ class Supercane():
         return None
 
     def set_micro_servo(self, degree):
-        servo = AngularServo(MICRO_SERVO_PIN, min_angle=-90, max_angle=90)
-        servo.angle = degree
+
+        self.micro_servo.angle = degree
 
 
     def set_big_servo(self, degree):
-        servo = AngularServo(BIG_SERVO_PIN, min_angle=-90, max_angle=90)
-        servo.angle = degree
+        self.big_servo.angle = degree
 
     def set_haptic_1(self, velocity=DEFAULT_HAPTIC_VELOCITY):
         self.kit.motor1.throttle = velocity
@@ -213,7 +221,7 @@ class Supercane():
 
 if __name__ == "__main__":
     cane = Supercane()
-    cane.micro_servo_test()
+    # cane.micro_servo_test()
     # cane.ultrasonic_sensor_test()
 
 
