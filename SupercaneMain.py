@@ -65,7 +65,7 @@ class Supercane():
 
 
 
-        self.location = []
+        self.location = [0,0]
 
         self.main()
 
