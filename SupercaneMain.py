@@ -55,18 +55,19 @@ class Supercane():
 
     def main(self):
         angle = 0
-        ang_pol = 0
+        angle_polarity = 0
         while True:
-
-            if ang_pol%1 == 0:
+            if angle_polarity == 0:
                 angle += 10
+                if angle >= 180:
+                    angle_polarity = 1
+
             else:
                 angle -= 10
+                if angle <= 0:
+                    angle_polarity = 0
 
-            if angle % 180 == 0:
-                ang_pol += 1
-
-            ang = angle % 180 - 90
+            ang = angle - 90
 
             self.set_micro_servo(ang)
             print(ang)
