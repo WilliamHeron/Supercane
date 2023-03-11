@@ -22,6 +22,7 @@ Loop(){
 
 
 """
+
 # ------------ Imports -----------
 from gpiozero import Servo
 from gpiozero import AngularServo
@@ -252,7 +253,7 @@ class Supercane():
 
             # Reset by pressing CTRL + C
         except KeyboardInterrupt:
-            print("Measurement stoppe")
+            print("Measurement stopped")
 
 
 if __name__ == "__main__":
