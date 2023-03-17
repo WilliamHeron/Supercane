@@ -8,7 +8,21 @@ from signal import pause
 #
 # servo = Servo(12, pin_factory=pigpio_factory)
 
-servo = Servo(12)
+# servo = Servo(12)
+# servo.source = sin_values()
+# servo.source_delay = 0.03
+#
+# pause()
+
+
+
+#------Using GPIO LIBRARY-------
+
+from gpiozero.pins.pigpio import PiGPIOFactory
+pigpio_factory = PiGPIOFactory()
+
+servo = Servo(12, pin_factory=pigpio_factory)
+
 servo.source = sin_values()
 servo.source_delay = 0.03
 
