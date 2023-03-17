@@ -45,7 +45,7 @@ BIG_SERVO_PIN = 12
 DEFAULT_HAPTIC_VELOCITY = 0
 WHEEL_OBJECT_OFFSET_ANGLE = 45 #in degrees
 DISTANCE_THRESHOLD = 100 #in cm
-HAPTIC_DISTANCE_THRESHOLD = 150 #in cm
+HAPTIC_DISTANCE_THRESHOLD = 20 #in cm
 
 # ------ Class ----------
 class Supercane():
@@ -66,7 +66,7 @@ class Supercane():
 
 
 
-        self.location = [0,0]
+        self.location = [0,0] #Array to store [angle, distance]
 
         self.main()
 
@@ -78,14 +78,19 @@ class Supercane():
             sleep(1)
 
             #Micro Servo
+            ANG_UPPER_LIMIT = 150
+            ANG_LOWER_LIMIT = 30
+            INCRIMENT_BY = 10
+
             if angle_polarity == 0:
-                angle += 10
-                if angle >= 180:
+                angle += INCRIMENT_BY
+                if angle >= ANG_UPPER_LIMIT:
                     angle_polarity = 1
             else:
-                angle -= 10
-                if angle <= 0:
+                angle -= INCRIMENT_BY
+                if angle <= ANG_LOWER_LIMIT:
                     angle_polarity = 0
+
             ang = angle - 90
             self.set_micro_servo(ang)
             print(ang)
