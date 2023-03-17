@@ -19,7 +19,7 @@ Loop(){
 }
 
 
-
+Run: sudo pigpiod before launch
 
 """
 
@@ -46,6 +46,7 @@ pigpio_factory = PiGPIOFactory()
 ULTRASONIC_GPIO_TRIGGER = 17
 ULTRASONIC_GPIO_ECHO = 22
 MICRO_SERVO_PIN = 27
+MICRO_SERVO_CENTER_POINT = 50
 BIG_SERVO_PIN = 12
 DEFAULT_HAPTIC_VELOCITY = 0
 WHEEL_OBJECT_OFFSET_ANGLE = 45 #in degrees
@@ -83,8 +84,8 @@ class Supercane():
             sleep(1)
 
             #Micro Servo
-            ANG_UPPER_LIMIT = 150
-            ANG_LOWER_LIMIT = 30
+            ANG_UPPER_LIMIT = 140 - MICRO_SERVO_CENTER_POINT
+            ANG_LOWER_LIMIT = 60 - MICRO_SERVO_CENTER_POINT
             INCRIMENT_BY = 10
 
             if angle_polarity == 0:
@@ -117,12 +118,19 @@ class Supercane():
 
             #Haptic Feedback
             if self.location[1] < HAPTIC_DISTANCE_THRESHOLD:
-                if self.location[0] < -45:
-                    self.set_haptic_1(1)
-                elif self.location[0] > 45:
-                    self.set_haptic_3(1)
-                else:
-                    self.set_haptic_2(1)
+                self.set_haptic_1(1)
+                self.set_haptic_2(1)
+                self.set_haptic_3(1)
+                # if self.location[0] < -45:
+                #     self.set_haptic_1(1)
+                # elif self.location[0] > 45:
+                #     self.set_haptic_3(1)
+                # else:
+                #     self.set_haptic_2(1)
+            else:
+                self.set_haptic_1(0)
+                self.set_haptic_2(0)
+                self.set_haptic_3(0)
 
             #Return audio
             print(self.location)
