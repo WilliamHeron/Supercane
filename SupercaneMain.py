@@ -84,8 +84,8 @@ class Supercane():
             sleep(1)
 
             #Micro Servo
-            ANG_UPPER_LIMIT = 140 - MICRO_SERVO_CENTER_POINT
-            ANG_LOWER_LIMIT = 60 - MICRO_SERVO_CENTER_POINT
+            ANG_UPPER_LIMIT = 140 + MICRO_SERVO_CENTER_POINT
+            ANG_LOWER_LIMIT = 60 + MICRO_SERVO_CENTER_POINT
             INCRIMENT_BY = 10
 
             if angle_polarity == 0:
@@ -100,7 +100,7 @@ class Supercane():
             ang = angle - 90
             self.set_micro_servo(ang)
             print(ang)
-            self.location[0] = ang
+            self.location[0] = ang + MICRO_SERVO_CENTER_POINT
 
             #Read Distance
             distance_ultra = self.get_ultrasonic_distance()
@@ -118,8 +118,8 @@ class Supercane():
 
             #Haptic Feedback
             if self.location[1] < HAPTIC_DISTANCE_THRESHOLD:
-                self.set_haptic_1(1)
-                self.set_haptic_2(1)
+                self.set_haptic_1(1.0)
+                self.set_haptic_2(1.0)
                 self.set_haptic_3(1)
                 # if self.location[0] < -45:
                 #     self.set_haptic_1(1)
