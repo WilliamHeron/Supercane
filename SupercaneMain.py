@@ -37,6 +37,11 @@ from adafruit_motorkit import MotorKit
 import RPi.GPIO as GPIO
 import time
 
+#Motor Control
+from gpiozero.pins.pigpio import PiGPIOFactory
+pigpio_factory = PiGPIOFactory()
+
+
 # ----- Global Variables -----
 ULTRASONIC_GPIO_TRIGGER = 17
 ULTRASONIC_GPIO_ECHO = 22
@@ -52,8 +57,8 @@ class Supercane():
 
     def __init__(self):
         self.kit = MotorKit()   #HAT Controller Kit
-        self.micro_servo = AngularServo(MICRO_SERVO_PIN, min_angle=-90, max_angle=90)
-        self.big_servo = AngularServo(BIG_SERVO_PIN, min_angle=-90, max_angle=90)
+        self.micro_servo = AngularServo(MICRO_SERVO_PIN, min_angle=-90, max_angle=90, pin_factory=pigpio_factory)
+        self.big_servo = AngularServo(BIG_SERVO_PIN, min_angle=-90, max_angle=90, pin_factory=pigpio_factory)
 
         #Ultrasonic
         GPIO.setmode(GPIO.BCM)
