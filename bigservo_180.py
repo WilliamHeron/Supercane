@@ -21,7 +21,6 @@ from signal import pause
 from gpiozero.pins.pigpio import PiGPIOFactory
 pigpio_factory = PiGPIOFactory()
 
-servo = Servo(12, pin_factory=pigpio_factory)
+micro_servo = AngularServo(12, min_angle=-90, max_angle=90, pin_factory=pigpio_factory)
 
-servo.source = 180
-servo.source_delay = 0.03
+micro_servo.angle = 0
