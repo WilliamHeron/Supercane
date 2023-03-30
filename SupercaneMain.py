@@ -173,7 +173,7 @@ class Supercane():
             while GPIO.input(self.GPIO_ECHO) == 1:
                 StopTime = time.time()
 
-        except:
+        except ValueError:
             print("Ultrasonic Reading didn't work inside 'get_ultrasonic_distance()''")
             StartTime = 0
             StopTime = 1
