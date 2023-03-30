@@ -5,7 +5,7 @@ from signal import pause
 
 
 
-
+from gpiozero import AngularServo
 from gpiozero.pins.pigpio import PiGPIOFactory
 pigpio_factory = PiGPIOFactory()
 

@@ -18,6 +18,7 @@ from signal import pause
 
 #------Using GPIO LIBRARY-------
 
+from gpiozero import AngularServo
 from gpiozero.pins.pigpio import PiGPIOFactory
 pigpio_factory = PiGPIOFactory()
 
