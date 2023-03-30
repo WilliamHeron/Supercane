@@ -5,7 +5,7 @@ from signal import pause
 
 
 
-rom gpiozero import Servo
+from gpiozero import Servo
 from time import sleep
 
 servo = Servo(27)
