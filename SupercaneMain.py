@@ -60,7 +60,7 @@ ULTRASONIC_GPIO_ECHO = 22
 MICRO_SERVO_PIN = 27
 MICRO_SERVO_CENTER_POINT = 0
 BIG_SERVO_PIN = 12
-DEFAULT_HAPTIC_VELOCITY = 0
+DEFAULT_HAPTIC_VELOCITY = 0.0
 WHEEL_OBJECT_OFFSET_ANGLE = 45 #in degrees
 DISTANCE_THRESHOLD = 100 #in cm
 HAPTIC_DISTANCE_THRESHOLD = 20 #in cm
@@ -212,10 +212,19 @@ class Supercane():
         front = math.sin(angle) * distance
         side = math.cos(angle) * distance
 
+        front_magnitude = (HAPTIC_DISTANCE_THRESHOLD - front)/HAPTIC_DISTANCE_THRESHOLD
+        side_magnitude = (HAPTIC_DISTANCE_THRESHOLD - abs(side))/HAPTIC_DISTANCE_THRESHOLD
 
+        try:
+            self.set_haptic_2(front_magnitude) #Front Haptic
 
+            if side < 0:
+                self.set_haptic_3(side_magnitude)
+            elif side > 0:
+                self.set_haptic_1(side_magnitude)
 
-
+        except:
+            print("got magnitude bigger than 1")
 
 
     #---------------TESTS---------------
