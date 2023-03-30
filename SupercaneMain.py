@@ -228,10 +228,10 @@ class Supercane():
 
         #Formula says that:     degree response from the wheel = servo_angle - 90degrees * (threshold-distance)/threshold * 0.90
         if angle >= 0:
-            big_servo_angle = angle - 90*(WHEEL_DISTANCE_THRESHOLD - distance)/WHEEL_DISTANCE_THRESHOLD * percent_reduction
+            big_servo_angle = angle - 90*(WHEEL_DISTANCE_THRESHOLD - abs(distance))/WHEEL_DISTANCE_THRESHOLD * percent_reduction
 
         elif angle < 0:
-            big_servo_angle = angle + 90 * (WHEEL_DISTANCE_THRESHOLD - distance) / WHEEL_DISTANCE_THRESHOLD * percent_reduction
+            big_servo_angle = angle + 90 * (WHEEL_DISTANCE_THRESHOLD - abs(distance)) / WHEEL_DISTANCE_THRESHOLD * percent_reduction
 
         print("wheel angle: " + str(big_servo_angle))
         try:
