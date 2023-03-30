@@ -18,12 +18,19 @@ from signal import pause
 
 #------Using GPIO LIBRARY-------
 
-from gpiozero import AngularServo
-from gpiozero.pins.pigpio import PiGPIOFactory
-pigpio_factory = PiGPIOFactory()
 
-micro_servo = AngularServo(12, min_angle=-90, max_angle=90, pin_factory=pigpio_factory)
+from gpiozero import Servo
+from time import sleep
 
-sleep(1)
-micro_servo.angle = 0
-sleep(1)
+servo = Servo(12)
+
+try:
+	while True:
+    	servo.min()
+    	sleep(0.5)
+    	servo.mid()
+    	sleep(0.5)
+    	servo.max()
+    	sleep(0.5)
+except KeyboardInterrupt:
+	print("Program stopped")

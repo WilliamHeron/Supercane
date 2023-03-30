@@ -21,8 +21,12 @@ Loop(){
 
 Run:
 sudo pigpiod
-*or*
+sudo pip3 install adafruit-circuitpython-motorkit
+sudo pip3 install giozero
+*AND*
 sudo apt-get install python-pigpio python3-pigpio
+sudo apt install python3-pip
+
 
 IP: 192.168.0.10
 PW = 1234
