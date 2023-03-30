@@ -233,6 +233,7 @@ class Supercane():
         elif angle < 0:
             big_servo_angle = angle + 90 * (WHEEL_DISTANCE_THRESHOLD - distance) / WHEEL_DISTANCE_THRESHOLD * percent_reduction
 
+        print("wheel angle: " + str(big_servo_angle))
         try:
             self.set_big_servo(big_servo_angle)
         except:
