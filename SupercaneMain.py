@@ -164,13 +164,19 @@ class Supercane():
         StartTime = time.time()
         StopTime = time.time()
 
-        # save StartTime
-        while GPIO.input(self.GPIO_ECHO) == 0:
-            StartTime = time.time()
+        try:
+            # save StartTime
+            while GPIO.input(self.GPIO_ECHO) == 0:
+                StartTime = time.time()
 
-        # save time of arrival
-        while GPIO.input(self.GPIO_ECHO) == 1:
-            StopTime = time.time()
+            # save time of arrival
+            while GPIO.input(self.GPIO_ECHO) == 1:
+                StopTime = time.time()
+
+        except:
+            print("Ultrasonic Reading didn't work inside 'get_ultrasonic_distance()''")
+            StartTime = 0
+            StopTime = 1
 
         TimeElapsed = StopTime - StartTime
         # multiply with the sonic speed (34300 cm/s)
@@ -242,7 +248,7 @@ class Supercane():
         elif angle < 0:
             big_servo_angle = angle + 90 * (WHEEL_DISTANCE_THRESHOLD - abs(distance)) / WHEEL_DISTANCE_THRESHOLD * percent_reduction
 
-        print("wheel angle: " + str(big_servo_angle))
+        # print("wheel angle: " + str(big_servo_angle))
         try:
             self.set_big_servo(big_servo_angle)
         except:
