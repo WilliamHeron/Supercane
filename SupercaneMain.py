@@ -56,7 +56,7 @@ pigpio_factory = PiGPIOFactory()
 ULTRASONIC_GPIO_TRIGGER = 17
 ULTRASONIC_GPIO_ECHO = 22
 MICRO_SERVO_PIN = 27
-MICRO_SERVO_CENTER_POINT = 50
+MICRO_SERVO_CENTER_POINT = 0
 BIG_SERVO_PIN = 12
 DEFAULT_HAPTIC_VELOCITY = 0
 WHEEL_OBJECT_OFFSET_ANGLE = 45 #in degrees
@@ -84,7 +84,16 @@ class Supercane():
 
         self.location = [0,0] #Array to store [angle, distance]
 
-        self.main()
+        try:
+            self.main()
+
+        except:
+            self.set_haptic_1(0)
+            self.set_haptic_2(0)
+            self.set_haptic_3(0)
+            self.set_micro_servo(0)
+            self.set_big_servo(0)
+
 
 
     def main(self):
