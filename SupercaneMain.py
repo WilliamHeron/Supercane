@@ -34,20 +34,22 @@ PW = 1234
 """
 
 # ------------ Imports -----------
-from gpiozero import Servo
-from gpiozero import AngularServo
+
+#General
 from time import sleep
-from gpiozero.tools import sin_values
+import math
+import time
 from signal import pause
 
-import time
+#Board
 import board
 from adafruit_motorkit import MotorKit
-
 import RPi.GPIO as GPIO
-import time
 
 #Motor Control
+from gpiozero.tools import sin_values
+from gpiozero import Servo
+from gpiozero import AngularServo
 from gpiozero.pins.pigpio import PiGPIOFactory
 pigpio_factory = PiGPIOFactory()
 
@@ -88,6 +90,7 @@ class Supercane():
             self.main()
 
         except:
+            raise Exception("encountered an error")
             self.set_haptic_1(0)
             self.set_haptic_2(0)
             self.set_haptic_3(0)
@@ -104,7 +107,7 @@ class Supercane():
 
             #Micro Servo
             ANG_UPPER_LIMIT = 140 + MICRO_SERVO_CENTER_POINT
-            ANG_LOWER_LIMIT = 60 + MICRO_SERVO_CENTER_POINT
+            ANG_LOWER_LIMIT = 40 + MICRO_SERVO_CENTER_POINT
             INCRIMENT_BY = 10
 
             if angle_polarity == 0:
@@ -137,15 +140,9 @@ class Supercane():
 
             #Haptic Feedback
             if self.location[1] < HAPTIC_DISTANCE_THRESHOLD:
-                self.set_haptic_1(1.0)
-                self.set_haptic_2(1.0)
-                self.set_haptic_3(1)
-                # if self.location[0] < -45:
-                #     self.set_haptic_1(1)
-                # elif self.location[0] > 45:
-                #     self.set_haptic_3(1)
-                # else:
-                #     self.set_haptic_2(1)
+                self.haptic_handler() #Handles haptic feedback proportions
+
+
             else:
                 self.set_haptic_1(0)
                 self.set_haptic_2(0)
@@ -208,7 +205,20 @@ class Supercane():
     def set_audio(self, command):
         print("doesnt work yet")
 
-    # TESTS
+    def haptic_handler(self):
+        angle = self.location[0]
+        distance = self.location[1]
+
+        front = math.sin(angle) * distance
+        side = math.cos(angle) * distance
+
+
+
+
+
+
+
+    #---------------TESTS---------------
     def big_servo_test(self):
 
         servo = Servo(12)
