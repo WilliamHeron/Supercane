@@ -1,16 +1,16 @@
-from gpiozero import Servo
-from time import sleep
-from gpiozero.tools import sin_values
-from signal import pause
 
+import pigpio
+import time
 
+servo = 27
 
-from gpiozero import AngularServo
-from gpiozero.pins.pigpio import PiGPIOFactory
-pigpio_factory = PiGPIOFactory()
+pwm = pigpio.pi()
+pwm.set_mode(servo, pigpio.OUTPUT)
 
-micro_servo = AngularServo(27, min_angle=-90, max_angle=90, pin_factory=pigpio_factory)
+pwm.set_PWM_frequency(servo, 50)
+pwm.set_PWM_range(servo, 20000)  # 1,000,000 / 50 = 20,000us for 100% duty cycle
 
-sleep(1)
-micro_servo.angle = 180
-sleep(1)
+pwm.hardware_PWM(servo, 50, 2000)
+time.sleep(10)
+
+pwm.set_servo_pulsewidth(servo, 0)
