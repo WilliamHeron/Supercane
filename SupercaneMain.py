@@ -116,6 +116,7 @@ class Supercane():
                 self.set_micro_servo(ang)
             except ValueError:
                 print("couldn't set servo angle")
+                pass
 
             print(ang)
             self.location[0] = ang
@@ -127,6 +128,7 @@ class Supercane():
             except ValueError:
                 distance_ultra = 1000000
                 print("couldn't read ultrasonic distance")
+                pass
 
             distance_camera = self.get_camera_data()
             self.location[1] = distance_ultra
@@ -148,6 +150,7 @@ class Supercane():
                     self.set_haptic_3(0)
                 except ValueError:
                     print("Couldn't reset haptic feedback")
+                    pass
 
 
             #Return audio
@@ -177,6 +180,7 @@ class Supercane():
             print("Ultrasonic Reading didn't work inside 'get_ultrasonic_distance()''")
             StartTime = 0
             StopTime = 1
+            pass
 
         TimeElapsed = StopTime - StartTime
         # multiply with the sonic speed (34300 cm/s)
@@ -233,6 +237,7 @@ class Supercane():
 
         except ValueError:
             print("got magnitude bigger than 1")
+            pass
 
     def wheel_handler(self):
         angle = self.location[0]
@@ -253,6 +258,7 @@ class Supercane():
             self.set_big_servo(big_servo_angle)
         except ValueError:
             print("servo value not valid")
+            pass
 
 
 
