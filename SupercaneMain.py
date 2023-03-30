@@ -114,7 +114,7 @@ class Supercane():
             ang = angle - 90
             try:
                 self.set_micro_servo(ang)
-            except:
+            except ValueError:
                 print("couldn't set servo angle")
 
             print(ang)
@@ -124,7 +124,7 @@ class Supercane():
             try:
                 distance_ultra = self.get_ultrasonic_distance()
 
-            except:
+            except ValueError:
                 distance_ultra = 1000000
                 print("couldn't read ultrasonic distance")
 
@@ -146,7 +146,7 @@ class Supercane():
                     self.set_haptic_1(0)
                     self.set_haptic_2(0)
                     self.set_haptic_3(0)
-                except:
+                except ValueError:
                     print("Couldn't reset haptic feedback")
 
 
@@ -231,7 +231,7 @@ class Supercane():
             elif side > 0:
                 self.set_haptic_1(side_magnitude)
 
-        except:
+        except ValueError:
             print("got magnitude bigger than 1")
 
     def wheel_handler(self):
@@ -251,7 +251,7 @@ class Supercane():
         # print("wheel angle: " + str(big_servo_angle))
         try:
             self.set_big_servo(big_servo_angle)
-        except:
+        except ValueError:
             print("servo value not valid")
 
 
