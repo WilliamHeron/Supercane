@@ -112,24 +112,29 @@ class Supercane():
                     angle_polarity = 0
 
             ang = angle - 90
-            self.set_micro_servo(ang)
+            try:
+                self.set_micro_servo(ang)
+            except:
+                print("couldn't set servo angle")
+
             print(ang)
             self.location[0] = ang
 
             #Read Distance
-            distance_ultra = self.get_ultrasonic_distance()
+            try:
+                distance_ultra = self.get_ultrasonic_distance()
+
+            except:
+                distance_ultra = 1000000
+                print("couldn't read ultrasonic distance")
+
             distance_camera = self.get_camera_data()
             self.location[1] = distance_ultra
 
             #Wheel feedback
             if self.location[1] < WHEEL_DISTANCE_THRESHOLD:
                 self.wheel_handler()
-                # big_servo_angle = 0
-                # if ang > 0:
-                #     big_servo_angle = self.location[0] - WHEEL_OBJECT_OFFSET_ANGLE
-                # else:
-                #     big_servo_angle = self.location[0] + WHEEL_OBJECT_OFFSET_ANGLE
-                # self.set_big_servo(big_servo_angle)
+
 
             #Haptic Feedback
             if self.location[1] < HAPTIC_DISTANCE_THRESHOLD:
@@ -137,9 +142,13 @@ class Supercane():
 
 
             else:
-                self.set_haptic_1(0)
-                self.set_haptic_2(0)
-                self.set_haptic_3(0)
+                try:
+                    self.set_haptic_1(0)
+                    self.set_haptic_2(0)
+                    self.set_haptic_3(0)
+                except:
+                    print("Couldn't reset haptic feedback")
+
 
             #Return audio
             print(self.location)
