@@ -19,7 +19,13 @@ Loop(){
 }
 
 
-Run: sudo pigpiod before launch
+Run:
+sudo pigpiod
+*or*
+sudo apt-get install python-pigpio python3-pigpio
+
+IP: 192.168.0.10
+PW = 1234
 
 """
 
@@ -100,7 +106,7 @@ class Supercane():
             ang = angle - 90
             self.set_micro_servo(ang)
             print(ang)
-            self.location[0] = ang + MICRO_SERVO_CENTER_POINT
+            self.location[0] = ang
 
             #Read Distance
             distance_ultra = self.get_ultrasonic_distance()
