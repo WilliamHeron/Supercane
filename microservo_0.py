@@ -13,7 +13,7 @@ val = -1
 
 try:
     while True:
-        servo.value = val
+        servo.value = val*10
         sleep(0.1)
         val = val + 0.1
         if val > 1:
