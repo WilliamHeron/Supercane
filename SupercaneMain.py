@@ -62,7 +62,7 @@ MICRO_SERVO_CENTER_POINT = 0
 BIG_SERVO_PIN = 12
 DEFAULT_HAPTIC_VELOCITY = 0.0
 WHEEL_OBJECT_OFFSET_ANGLE = 45 #in degrees
-DISTANCE_THRESHOLD = 100 #in cm
+WHEEL_DISTANCE_THRESHOLD = 100 #in cm
 HAPTIC_DISTANCE_THRESHOLD = 20 #in cm
 
 # ------ Class ----------
@@ -86,16 +86,8 @@ class Supercane():
 
         self.location = [0,0] #Array to store [angle, distance]
 
-        try:
-            self.main()
-
-        except:
-            raise Exception("encountered an error")
-            self.set_haptic_1(0)
-            self.set_haptic_2(0)
-            self.set_haptic_3(0)
-            self.set_micro_servo(0)
-            self.set_big_servo(0)
+        #Main loop of code
+        self.main()
 
 
 
@@ -130,13 +122,14 @@ class Supercane():
             self.location[1] = distance_ultra
 
             #Wheel feedback
-            if self.location[1] < DISTANCE_THRESHOLD:
-                big_servo_angle = 0
-                if ang > 0:
-                    big_servo_angle = self.location[0] - WHEEL_OBJECT_OFFSET_ANGLE
-                else:
-                    big_servo_angle = self.location[0] + WHEEL_OBJECT_OFFSET_ANGLE
-                self.set_big_servo(big_servo_angle)
+            if self.location[1] < WHEEL_DISTANCE_THRESHOLD:
+                self.wheel_handler()
+                # big_servo_angle = 0
+                # if ang > 0:
+                #     big_servo_angle = self.location[0] - WHEEL_OBJECT_OFFSET_ANGLE
+                # else:
+                #     big_servo_angle = self.location[0] + WHEEL_OBJECT_OFFSET_ANGLE
+                # self.set_big_servo(big_servo_angle)
 
             #Haptic Feedback
             if self.location[1] < HAPTIC_DISTANCE_THRESHOLD:
@@ -225,6 +218,26 @@ class Supercane():
 
         except:
             print("got magnitude bigger than 1")
+
+    def wheel_handler(self):
+        angle = self.location[0]
+        distance = self.location[1]
+
+        percent_reduction = 0.90 #reducing the dramatic turn of the wheel
+        big_servo_angle = 0
+
+        #Formula says that:     degree response from the wheel = servo_angle - 90degrees * (threshold-distance)/threshold * 0.90
+        if angle >= 0:
+            big_servo_angle = angle - 90*(WHEEL_DISTANCE_THRESHOLD - distance)/WHEEL_DISTANCE_THRESHOLD * percent_reduction
+
+        elif angle < 0:
+            big_servo_angle = angle + 90 * (WHEEL_DISTANCE_THRESHOLD - distance) / WHEEL_DISTANCE_THRESHOLD * percent_reduction
+
+        try:
+            self.set_big_servo(big_servo_angle)
+        except:
+            print("servo value not valid")
+
 
 
     #---------------TESTS---------------
