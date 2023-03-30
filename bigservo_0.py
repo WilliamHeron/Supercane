@@ -24,4 +24,6 @@ pigpio_factory = PiGPIOFactory()
 
 micro_servo = AngularServo(12, min_angle=-90, max_angle=90, pin_factory=pigpio_factory)
 
+sleep(1)
 micro_servo.angle = 0
+sleep(1)
