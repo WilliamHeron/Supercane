@@ -96,6 +96,7 @@ class Supercane():
         angle_polarity = 0
         while True:
             sleep(0.1)
+            temp_location = [0,0]
 
             #Micro Servo
             ANG_UPPER_LIMIT = 140 + MICRO_SERVO_CENTER_POINT
@@ -119,7 +120,7 @@ class Supercane():
                 pass
 
             print(ang)
-            self.location[0] = ang
+            temp_location[0] = ang
 
             #Read Distance
             try:
@@ -131,7 +132,11 @@ class Supercane():
                 pass
 
             distance_camera = self.get_camera_data()
-            self.location[1] = distance_ultra
+            temp_location[1] = distance_ultra
+
+            #Assess distance/angle
+            self.location = self.update_location(temp_location)
+
 
             #Wheel feedback
             if self.location[1] < WHEEL_DISTANCE_THRESHOLD:
@@ -216,6 +221,25 @@ class Supercane():
 
     def set_audio(self, command):
         print("doesnt work yet")
+
+    def update_location(self, temp_location):
+
+        if self.location == [0,0]: #Initial State
+            return temp_location
+
+        elif temp_location == [0,0]: #Handle if sensor data fails
+            return self.location
+
+        elif temp_location[1] < self.location[1]: #if new distance is less than old distance
+            return temp_location
+
+        elif temp_location[0] == self.location[0] and temp_location[1] > self.location[1]: #if the angle is the same and the new distance is further than the old distance
+            return temp_location
+
+        else:
+            return self.location
+
+
 
     def haptic_handler(self):
         angle = self.location[0]
