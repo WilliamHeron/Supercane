@@ -22,8 +22,8 @@ while True:
         # p=subprocess.Popen( "/home/pi/Supercane/SupercaneMain.py",shell=True,preexec_fn=os.setsid)
         # subprocess.call(['cd Supercane'])
         # subprocess.call(['python3 SupercaneMain.py'])
-        subprocess.run(["python", "SupercaneMain.py"])
-
+        # subprocess.run(["python", "SupercaneMain.py"])
+        cane = Supercane()
         print("set = 0")
         time.sleep(1)
         set = 1
@@ -31,7 +31,7 @@ while True:
     Input_state = GPIO.input(BUTTON_PIN)
     if input_state == False and set == 1:
         # cane = Supercane()
-        os.killpg(p.pid, signal.SIGTERM)
+        # os.killpg(p.pid, signal.SIGTERM)
 
         print("set = 1")
         time.sleep(1)
