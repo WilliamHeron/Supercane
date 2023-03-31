@@ -62,8 +62,8 @@ MICRO_SERVO_CENTER_POINT = 0
 BIG_SERVO_PIN = 12
 DEFAULT_HAPTIC_VELOCITY = 0.0
 WHEEL_OBJECT_OFFSET_ANGLE = 45 #in degrees
-WHEEL_DISTANCE_THRESHOLD = 100 #in cm
-HAPTIC_DISTANCE_THRESHOLD = 20 #in cm
+WHEEL_DISTANCE_THRESHOLD = 200 #in cm
+HAPTIC_DISTANCE_THRESHOLD = 100 #in cm
 
 # ------ Class ----------
 class Supercane():
@@ -260,7 +260,7 @@ class Supercane():
                 self.set_haptic_1(side_magnitude)
 
         except ValueError:
-            print("got magnitude bigger than 1")
+            print("got magnitude bigger than 1 : " + str(side_magnitude))
             pass
 
     def wheel_handler(self):
@@ -281,7 +281,7 @@ class Supercane():
         try:
             self.set_big_servo(big_servo_angle)
         except ValueError:
-            print("servo value not valid")
+            print("servo value not valid : " + str(big_servo_angle))
             pass
 
 
