@@ -19,7 +19,7 @@ while True:
     if input_state == False and set == 0:
         # subprocess.("/home/pi/securipi-rpicamtd.sh", shell=True)
         p=subprocess.Popen( "/home/pi/Supercane/securipi-picamtd.sh",shell=True,preexec_fn=os.setsid)
-        subprocess.call(['python3 SuperCaneMain.py'])
+        subprocess.call(['python3 SupercaneMain.py'])
 
         print("set = 0")
         time.sleep(1)
