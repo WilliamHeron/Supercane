@@ -10,7 +10,7 @@ import subprocess
 BUTTON_PIN = 18
 
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(BUTTON_PIN, GPIO, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 set = 0
 while True:
     input_state = GPIO.input(BUTTON_PIN)
