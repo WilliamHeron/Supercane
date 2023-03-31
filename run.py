@@ -1,4 +1,5 @@
 #Script for running main script
+import signal
 
 from SupercaneMain import *
 
@@ -6,6 +7,7 @@ from SupercaneMain import *
 import RPi.GPIO as GPIO
 import time
 import subprocess
+import os
 
 BUTTON_PIN = 18
 
@@ -15,8 +17,9 @@ set = 0
 while True:
     input_state = GPIO.input(BUTTON_PIN)
     if input_state == False and set == 0:
-        # subprocess.("/home/pi/securipi-rpicamtd.sh", shell=True)
-        # p=subprocess.Popen( "/home/pi/securipi-picamtd.sh",shell=True,preexec_fn=os.setsid)
+        subprocess.("/home/pi/securipi-rpicamtd.sh", shell=True)
+        p=subprocess.Popen( "/home/pi/securipi-picamtd.sh",shell=True,preexec_fn=os.setsid)
+        subprocess.call(['python SuperCaneMain.py'])
 
         print("set = 0")
         time.sleep(1)
@@ -25,7 +28,7 @@ while True:
     Input_state = GPIO.input(BUTTON_PIN)
     if input_state == False and set == 1:
         # cane = Supercane()
-        # os.killpg(p.pid, signal.SIGTERM)
+        os.killpg(p.pid, signal.SIGTERM)
 
         print("set = 1")
         time.sleep(1)
