@@ -159,7 +159,7 @@ class Supercane():
 
 
             #Return audio
-            print(self.location)
+            # print(self.location)
 
 
     def get_ultrasonic_distance(self):
@@ -280,6 +280,7 @@ class Supercane():
 
         # print("wheel angle: " + str(big_servo_angle))
         try:
+            print("big servo angle: " + str(big_servo_angle))
             self.set_big_servo(big_servo_angle)
         except ValueError:
             print("servo value not valid : " + str(big_servo_angle))
