@@ -5,22 +5,22 @@ from SupercaneMain import *
 
 #Coppied from SupercaneMain
 
-from time import sleep
-import math
-import time
-from signal import pause
-
-#Board
-import board
-from adafruit_motorkit import MotorKit
-import RPi.GPIO as GPIO
-
-#Motor Control
-from gpiozero.tools import sin_values
-from gpiozero import Servo
-from gpiozero import AngularServo
-from gpiozero.pins.pigpio import PiGPIOFactory
-pigpio_factory = PiGPIOFactory()
+# from time import sleep
+# import math
+# import time
+# from signal import pause
+#
+# #Board
+# import board
+# from adafruit_motorkit import MotorKit
+# import RPi.GPIO as GPIO
+#
+# #Motor Control
+# from gpiozero.tools import sin_values
+# from gpiozero import Servo
+# from gpiozero import AngularServo
+# from gpiozero.pins.pigpio import PiGPIOFactory
+# pigpio_factory = PiGPIOFactory()
 
 
 
