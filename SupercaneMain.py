@@ -92,7 +92,7 @@ class Supercane(threading.Thread):
         self.location = [0,0] #Array to store [angle, distance]
 
         #Main loop of code
-        self.main()
+        # self.main()
 
 
 

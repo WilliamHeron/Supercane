@@ -96,6 +96,7 @@ while True:
         if first_run == False:
             cane = Supercane()
             cane.start()
+            cane.main()
             first_run = True
         else:
             cane.start()
