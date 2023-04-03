@@ -47,14 +47,17 @@ class RunPython(threading.Thread):
     def __init__(self):
         threading.Thread.__init__(self)
         self.set = 0
+        self.cane = Supercane()
         # self.process = None
         # self._lock = toggle_lock
 
     def run(self):
+        self.cane.start()
+
         while True:
             input_state = GPIO.input(BUTTON_PIN)
             if input_state == False and self.set == 0:
-
+                self.cane.main()
                 print("set = 0")
                 time.sleep(1)
                 self.set = 1
@@ -63,7 +66,7 @@ class RunPython(threading.Thread):
             Input_state = GPIO.input(BUTTON_PIN)
 
             if input_state == False and self.set == 1:
-
+                self.cane.stop()
 
                 print("set = 1")
                 time.sleep(1)
@@ -151,20 +154,21 @@ class RunPython(threading.Thread):
 
 
 thread1 = RunPython()
-thread2 = Supercane()
+# thread2 = Supercane()
 thread1.start()
 thread1.run()
 
-while True:
-    if thread1.set == 1 and pressed == True:
-        cane.start()
-        cane.main()
-        pressed = False
 
-    if thread1.set == 0 and pressed == True:
-        cane.stop()
-        cane.join()
-        pressed = False
-
+# while True:
+#     if thread1.set == 1 and pressed == True:
+#         cane.start()
+#         cane.main()
+#         pressed = False
+#
+#     if thread1.set == 0 and pressed == True:
+#         cane.stop()
+#         cane.join()
+#         pressed = False
+#
 
 
