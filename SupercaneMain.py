@@ -53,6 +53,8 @@ from gpiozero import AngularServo
 from gpiozero.pins.pigpio import PiGPIOFactory
 pigpio_factory = PiGPIOFactory()
 
+import threading
+
 
 # ----- Global Variables -----
 ULTRASONIC_GPIO_TRIGGER = 17
@@ -66,9 +68,11 @@ WHEEL_DISTANCE_THRESHOLD = 200 #in cm
 HAPTIC_DISTANCE_THRESHOLD = 100 #in cm
 
 # ------ Class ----------
-class Supercane():
+class Supercane(threading.Thread):
 
     def __init__(self):
+        threading.Thread.__init__(self)
+
         self.kit = MotorKit()   #HAT Controller Kit
         self.micro_servo = AngularServo(MICRO_SERVO_PIN, min_angle=-90, max_angle=90, pin_factory=pigpio_factory)
         self.big_servo = AngularServo(BIG_SERVO_PIN, min_angle=-90, max_angle=90, pin_factory=pigpio_factory)

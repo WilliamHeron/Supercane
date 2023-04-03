@@ -95,6 +95,7 @@ while True:
         # py_script.start()
         if first_run == False:
             cane = Supercane()
+            cane.start()
             first_run = True
         else:
             cane.start()
@@ -107,6 +108,7 @@ while True:
     Input_state = GPIO.input(BUTTON_PIN)
     if input_state == False and set == 1:
         cane.stop()
+        cane.join()
 
         # cane = Supercane()
         # py_script.setDaemo(False)
