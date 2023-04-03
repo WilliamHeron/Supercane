@@ -51,7 +51,9 @@ from gpiozero.tools import sin_values
 from gpiozero import Servo
 from gpiozero import AngularServo
 from gpiozero.pins.pigpio import PiGPIOFactory
-pigpio_factory = PiGPIOFactory()
+
+
+
 
 import threading
 
@@ -68,6 +70,9 @@ WHEEL_DISTANCE_THRESHOLD = 200 #in cm
 HAPTIC_DISTANCE_THRESHOLD = 100 #in cm
 BUTTON_PIN = 18 #Button Pin
 
+pigpio_factory = PiGPIOFactory()
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 # ------ Class ----------
 class Supercane():
