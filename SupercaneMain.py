@@ -172,6 +172,8 @@ class Supercane():
                     print("Couldn't reset haptic feedback")
                     pass
 
+
+        sleep(2)
         self.initial_state()    #Return to initial state
 
             #Return audio
@@ -182,6 +184,7 @@ class Supercane():
 
         while button_status:
             input_state = GPIO.input(BUTTON_PIN)
+            print(input_state)
             if input_state == False and self.set == 0:
 
                 print("set = 0")
@@ -196,6 +199,7 @@ class Supercane():
     def button_check(self):
 
         input_state = GPIO.input(BUTTON_PIN)
+        print(input_state)
         if input_state == False and self.set == 1:
             print("set = 1")
             time.sleep(1)
