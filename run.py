@@ -151,6 +151,8 @@ class RunPython(threading.Thread):
 
 thread1 = RunPython()
 thread2 = Supercane()
+thread1.start()
+
 while True:
     if set == 1 and pressed == True:
         cane.start()
