@@ -53,21 +53,21 @@ class RunPython(threading.Thread):
     def run(self):
         while True:
             input_state = GPIO.input(BUTTON_PIN)
-            if input_state == False and set == 0:
+            if input_state == False and self.set == 0:
 
                 print("set = 0")
                 time.sleep(1)
-                set = 1
+                self.set = 1
                 pressed = True
 
             Input_state = GPIO.input(BUTTON_PIN)
 
-            if input_state == False and set == 1:
+            if input_state == False and self.set == 1:
 
 
                 print("set = 1")
                 time.sleep(1)
-                set = 0
+                self.set = 0
 
 
 
