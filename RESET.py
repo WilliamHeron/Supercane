@@ -99,11 +99,8 @@ class RESET():
         self.kit.motor3.throttle = velocity
 
 
-# if __name__ == "__main__":
-#     cane = Supercane()
-#     # cane.micro_servo_test()
-#     # cane.ultrasonic_sensor_test()
-#
+if __name__ == "__main__":
+    cane = RESET()
 
 
 

@@ -44,7 +44,12 @@ while True:
         # subprocess.call(['cd Supercane'])
         # subprocess.call(['python3 SupercaneMain.py'])
         # subprocess.run(["python", "SupercaneMain.py"])
-        cane = Supercane()
+
+        result = subprocess.run(["python3", "SupercaneMain.py"], capture_output=True, text=True)
+
+        print(result.stdout)
+
+        # cane = Supercane()
         print("set = 0")
         time.sleep(1)
         set = 1
@@ -53,6 +58,10 @@ while True:
     if input_state == False and set == 1:
         # cane = Supercane()
         # os.killpg(p.pid, signal.SIGTERM)
+
+        result = subprocess.run(["python3", "RESET.py"], capture_output=True, text=True)
+
+        print(result.stdout)
 
         print("set = 1")
         time.sleep(1)
