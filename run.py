@@ -92,7 +92,8 @@ while True:
     if input_state == False and set == 1:
         # cane = Supercane()
         # py_script.setDaemo(False)
-        py_script.join(10)
+        py_script.join(1)
+        print(py_script.is_alive())
 
         # result = subprocess.run(["python3", "RESET.py"], capture_output=True, text=True)
         # sleep(0.5)
