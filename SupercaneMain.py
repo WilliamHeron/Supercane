@@ -183,6 +183,7 @@ class Supercane():
         button_status = True
 
         while button_status:
+            sleep(1)
             input_state = GPIO.input(BUTTON_PIN)
             print(input_state)
             if input_state == False and self.set == 0:
@@ -205,7 +206,17 @@ class Supercane():
             time.sleep(1)
             self.set = 0
             self.run = False
+            self.reset()
 
+
+    def reset(self):
+        self.set_haptic_1(0)
+        self.set_haptic_2(0)
+        self.set_haptic_3(0)
+        self.set_big_servo(0)
+        self.set_micro_servo(0)
+        self.micro_servo.detach()
+        self.big_servo.detach()
 
 
     def stop(self):
