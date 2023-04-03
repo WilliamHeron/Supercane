@@ -66,17 +66,18 @@ DEFAULT_HAPTIC_VELOCITY = 0.0
 WHEEL_OBJECT_OFFSET_ANGLE = 45 #in degrees
 WHEEL_DISTANCE_THRESHOLD = 200 #in cm
 HAPTIC_DISTANCE_THRESHOLD = 100 #in cm
+BUTTON_PIN = 18 #Button Pin
+
 
 # ------ Class ----------
-class Supercane(threading.Thread):
+class Supercane():
 
     def __init__(self):
-        threading.Thread.__init__(self)
-
         self.kit = MotorKit()   #HAT Controller Kit
         self.micro_servo = AngularServo(MICRO_SERVO_PIN, min_angle=-90, max_angle=90, pin_factory=pigpio_factory)
         self.big_servo = AngularServo(BIG_SERVO_PIN, min_angle=-90, max_angle=90, pin_factory=pigpio_factory)
         self.run = True
+        self.set = 0
 
         #Ultrasonic
         GPIO.setmode(GPIO.BCM)
@@ -94,6 +95,7 @@ class Supercane(threading.Thread):
         #Main loop of code
         # self.main()
 
+        self.initial_state()
 
 
     def main(self):
@@ -102,6 +104,9 @@ class Supercane(threading.Thread):
         while self.run:
             sleep(0.1)
             temp_location = [0,0]
+
+            #Check Button
+            self.button_check()
 
             #Micro Servo
             ANG_UPPER_LIMIT = 140 + MICRO_SERVO_CENTER_POINT
@@ -162,9 +167,36 @@ class Supercane(threading.Thread):
                     print("Couldn't reset haptic feedback")
                     pass
 
+        self.initial_state()    #Return to initial state
 
             #Return audio
             # print(self.location)
+
+    def initial_state(self):
+        button_status = True
+
+        while button_status:
+            input_state = GPIO.input(BUTTON_PIN)
+            if input_state == False and self.set == 0:
+
+                print("set = 0")
+                time.sleep(1)
+                self.set = 1
+                self.run = True
+                button_status = False
+
+        self.main()
+
+
+    def button_check(self):
+
+        input_state = GPIO.input(BUTTON_PIN)
+        if input_state == False and self.set == 1:
+            print("set = 1")
+            time.sleep(1)
+            self.set = 0
+            self.run = False
+
 
 
     def stop(self):
@@ -174,6 +206,7 @@ class Supercane(threading.Thread):
     def start(self):
         self.run = True
         self.main()
+
 
 
     def get_ultrasonic_distance(self):
@@ -387,8 +420,8 @@ class Supercane(threading.Thread):
             print("Measurement stopped")
 
 
-# if __name__ == "__main__":
-#     cane = Supercane()
+if __name__ == "__main__":
+    cane = Supercane()
 
 
 

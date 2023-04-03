@@ -116,28 +116,25 @@ set = 0
 while True:
     input_state = GPIO.input(BUTTON_PIN)
     if input_state == False and set == 0:
+
+        # cane = Supercane()
+
         # subprocess.("/home/pi/securipi-rpicamtd.sh", shell=True)
         # p=subprocess.Popen( "/home/pi/securipi-picamtd.sh",shell=True,preexec_fn=os.setsid)
         # p=subprocess.Popen( "/home/pi/Supercane/SupercaneMain.py",shell=True,preexec_fn=os.setsid)
         # subprocess.call(['cd Supercane'])
         # subprocess.call(['python3 SupercaneMain.py'])
         # subprocess.run(["python", "SupercaneMain.py"])
+        #
+        # # cmd = ['python3 SupercaneMain.py']
+        # # cmd = ["python3", "SupercaneMain.py"]
+        # cmd = [sys.executable, "SupercaneMain.py"]
+        #
+        # # pro = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True, preexec_fn=os.setsid)
+        # pro = subprocess.Popen("SupercaneMain.py", shell=True)
+        # pro.communicate()
 
-        # py_script.start()
-        # if first_run == False:
-        #     cane = Supercane()
-        #     cane.start()
-        #     cane.main()
-        #     first_run = True
-        # else:
-        #     cane.start()
-        # cmd = ['python3 SupercaneMain.py']
-        # cmd = ["python3", "SupercaneMain.py"]
-        cmd = [sys.executable, "SupercaneMain.py"]
 
-        # pro = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True, preexec_fn=os.setsid)
-        pro = subprocess.Popen("SupercaneMain.py", shell=True)
-        pro.communicate()
         print("set = 0")
 
         time.sleep(1)
@@ -149,7 +146,7 @@ while True:
         # cane.stop()
         # cane.join()
 
-        os.killpg(os.getpgid(pro.pid), signal.SIGTERM)
+        # os.killpg(os.getpgid(pro.pid), signal.SIGTERM)
 
         # cane = Supercane()
         # py_script.setDaemo(False)
