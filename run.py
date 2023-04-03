@@ -32,6 +32,7 @@ import os
 import signal
 import threading
 import logging
+import sys
 
 BUTTON_PIN = 18
 
@@ -130,13 +131,15 @@ while True:
         #     first_run = True
         # else:
         #     cane.start()
-        cmd = ['python3 SupercaneMain.py']
+        # cmd = ['python3 SupercaneMain.py']
         # cmd = ["python3", "SupercaneMain.py"]
+        cmd = [sys.executable, "SupercaneMain.py"]
 
         pro = subprocess.Popen(cmd, stdout=subprocess.PIPE,
                                shell=True, preexec_fn=os.setsid)
-
+        pro.communicate()
         print("set = 0")
+
         time.sleep(1)
         set = 1
 
