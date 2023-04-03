@@ -50,10 +50,13 @@ class RunPython(threading.Thread):
         # self._lock = toggle_lock
 
     def run(self):
-        self.process = subprocess.run(["python3", "SupercaneMain.py"], capture_output=True, text=True)
+        # self.process = subprocess.run(["python3", "SupercaneMain.py"], capture_output=True, text=True)
+        self.process = subprocess.Popen(["python3", "SupercaneMain.py"])
 
     def close(self):
-        subprocess.run(["^c"], capture_output=True, text=True)
+        self.process.kill()
+        
+        # subprocess.run(["^c"], capture_output=True, text=True)
 
         # for message in self._args:
         #     if self._lock:
