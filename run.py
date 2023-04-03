@@ -57,9 +57,11 @@ while True:
     Input_state = GPIO.input(BUTTON_PIN)
     if input_state == False and set == 1:
         # cane = Supercane()
-        # os.killpg(p.pid, signal.SIGTERM)
+        os.killpg(result.pid, signal.SIGTERM)
 
         result = subprocess.run(["python3", "RESET.py"], capture_output=True, text=True)
+        sleep(0.5)
+        os.killpg(result.pid, signal.SIGTERM)
 
         print(result.stdout)
 
