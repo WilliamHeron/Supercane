@@ -184,7 +184,6 @@ class Supercane():
         button_status = True
 
         while button_status:
-            sleep(1)
             input_state = GPIO.input(BUTTON_PIN)
             print(input_state)
             if input_state == False and self.set == 0:
