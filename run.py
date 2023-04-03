@@ -36,7 +36,7 @@ BUTTON_PIN = 18
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-set = 0
+
 pressed = False
 
 lock = None
@@ -46,6 +46,7 @@ lock = None
 class RunPython(threading.Thread):
     def __init__(self):
         threading.Thread.__init__(self)
+        self.set = 0
         # self.process = None
         # self._lock = toggle_lock
 
@@ -154,12 +155,12 @@ thread2 = Supercane()
 thread1.start()
 
 while True:
-    if set == 1 and pressed == True:
+    if thread1.set == 1 and pressed == True:
         cane.start()
         cane.main()
         pressed = False
 
-    if set == 0 and pressed == True:
+    if thread1.set == 0 and pressed == True:
         cane.stop()
         cane.join()
         pressed = False
