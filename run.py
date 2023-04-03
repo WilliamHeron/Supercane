@@ -109,6 +109,9 @@ lock = None
 # cane = None
 # first_run = False
 #
+
+set = 0
+
 while True:
     input_state = GPIO.input(BUTTON_PIN)
     if input_state == False and set == 0:
@@ -128,7 +131,7 @@ while True:
         # else:
         #     cane.start()
         # cmd = ['python3 SupercaneMain.py']
-        
+
         cmd = ["python3", "SupercaneMain.py"]
         pro = subprocess.Popen(cmd, stdout=subprocess.PIPE,
                                shell=True, preexec_fn=os.setsid)
