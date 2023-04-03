@@ -29,6 +29,7 @@ import RPi.GPIO as GPIO
 import time
 import subprocess
 import os
+import thread
 
 BUTTON_PIN = 18
 
@@ -45,9 +46,12 @@ while True:
         # subprocess.call(['python3 SupercaneMain.py'])
         # subprocess.run(["python", "SupercaneMain.py"])
 
-        result = subprocess.run(["python3", "SupercaneMain.py"], capture_output=True, text=True)
+        try:
+            thread.start_new_thread(subprocess.run(["python3", "SupercaneMain.py"], capture_output=True, text=True))
 
-        print(result.stdout)
+        except:
+            print("couldn't start thread!")
+            pass
 
         # cane = Supercane()
         print("set = 0")
