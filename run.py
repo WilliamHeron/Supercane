@@ -130,9 +130,9 @@ while True:
         #     first_run = True
         # else:
         #     cane.start()
-        # cmd = ['python3 SupercaneMain.py']
+        cmd = ['python3 SupercaneMain.py']
+        # cmd = ["python3", "SupercaneMain.py"]
 
-        cmd = ["python3", "SupercaneMain.py"]
         pro = subprocess.Popen(cmd, stdout=subprocess.PIPE,
                                shell=True, preexec_fn=os.setsid)
 
@@ -143,8 +143,8 @@ while True:
 
     Input_state = GPIO.input(BUTTON_PIN)
     if input_state == False and set == 1:
-        cane.stop()
-        cane.join()
+        # cane.stop()
+        # cane.join()
 
         os.killpg(os.getpgid(pro.pid), signal.SIGTERM)
 
