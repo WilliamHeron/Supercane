@@ -153,6 +153,7 @@ class RunPython(threading.Thread):
 thread1 = RunPython()
 thread2 = Supercane()
 thread1.start()
+thread1.run()
 
 while True:
     if thread1.set == 1 and pressed == True:
