@@ -46,11 +46,14 @@ lock = None
 class RunPython(threading.Thread):
     def __init__(self):
         threading.Thread.__init__(self)
-
+        self.process = None
         # self._lock = toggle_lock
 
     def run(self):
-        subprocess.run(["python3", "SupercaneMain.py"], capture_output=True, text=True)
+        self.process = subprocess.run(["python3", "SupercaneMain.py"], capture_output=True, text=True)
+
+    def close(self):
+        self.process.terminate()
 
         # for message in self._args:
         #     if self._lock:
@@ -92,8 +95,7 @@ while True:
     if input_state == False and set == 1:
         # cane = Supercane()
         # py_script.setDaemo(False)
-        py_script.join(1)
-        print(py_script.is_alive())
+        py_script.close()
 
         # result = subprocess.run(["python3", "RESET.py"], capture_output=True, text=True)
         # sleep(0.5)
