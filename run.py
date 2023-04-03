@@ -135,8 +135,8 @@ while True:
         # cmd = ["python3", "SupercaneMain.py"]
         cmd = [sys.executable, "SupercaneMain.py"]
 
-        pro = subprocess.Popen(cmd, stdout=subprocess.PIPE,
-                               shell=True, preexec_fn=os.setsid)
+        # pro = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True, preexec_fn=os.setsid)
+        pro = subprocess.Popen("SupercaneMain.py", shell=True)
         pro.communicate()
         print("set = 0")
 
