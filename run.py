@@ -43,41 +43,44 @@ lock = None
 
 
 
-class RunPython(threading.Thread):
-    def __init__(self):
-        threading.Thread.__init__(self)
-        self.process = None
-        # self._lock = toggle_lock
+# class RunPython(threading.Thread):
+#     def __init__(self):
+#         threading.Thread.__init__(self)
+#         self.process = None
+#         # self._lock = toggle_lock
+#
+#     def run(self):
+#         # self.process = subprocess.run(["python3", "SupercaneMain.py"], capture_output=True, text=True)
+#         # self.process = subprocess.Popen(["python3", "SupercaneMain.py"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+#
+#
+#     def close(self):
+#         # output, errors = self.process.communicate()
+#         # self.process.kill()
+#
+#         # subprocess.run(["^c"], capture_output=True, text=True)
+#
+#         # for message in self._args:
+#         #     if self._lock:
+#         #         self._lock.acquire()
+#         #     print(message)
+#         #     if self._lock:
+#         #         self._lock.release()
+#         #     time.sleep(self._kwargs.get("delay", 1.0))
+#
+# # mp1 = MessagePrinter("Hello", "Good day!", lock=lock)
+# # mp2 = MessagePrinter("A", "B", "C", delay=3, lock=lock)
+# # mp1.start()
+# # mp2.start()
+# # mp1.join()
+# # mp2.join()
 
-    def run(self):
-        # self.process = subprocess.run(["python3", "SupercaneMain.py"], capture_output=True, text=True)
-        self.process = subprocess.Popen(["python3", "SupercaneMain.py"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-
-    def close(self):
-        output, errors = self.process.communicate()
-        self.process.kill()
-        
-        # subprocess.run(["^c"], capture_output=True, text=True)
-
-        # for message in self._args:
-        #     if self._lock:
-        #         self._lock.acquire()
-        #     print(message)
-        #     if self._lock:
-        #         self._lock.release()
-        #     time.sleep(self._kwargs.get("delay", 1.0))
-
-# mp1 = MessagePrinter("Hello", "Good day!", lock=lock)
-# mp2 = MessagePrinter("A", "B", "C", delay=3, lock=lock)
-# mp1.start()
-# mp2.start()
-# mp1.join()
-# mp2.join()
 
 
 
-
-py_script = RunPython()
+# py_script = RunPython()
+cane = None
+first_run = False
 
 while True:
     input_state = GPIO.input(BUTTON_PIN)
@@ -89,23 +92,32 @@ while True:
         # subprocess.call(['python3 SupercaneMain.py'])
         # subprocess.run(["python", "SupercaneMain.py"])
 
-        py_script.start()
-        # cane = Supercane()
+        # py_script.start()
+        if first_run == False:
+            cane = Supercane()
+            first_run = True
+        else:
+            cane.start()
+
         print("set = 0")
         time.sleep(1)
         set = 1
 
+
     Input_state = GPIO.input(BUTTON_PIN)
     if input_state == False and set == 1:
+        cane.stop()
+
         # cane = Supercane()
         # py_script.setDaemo(False)
-        py_script.close()
+        # py_script.close()
 
         # result = subprocess.run(["python3", "RESET.py"], capture_output=True, text=True)
         # sleep(0.5)
         # os.killpg(result.pid, signal.SIGTERM)
 
         # print(result.stdout)
+
 
         print("set = 1")
         time.sleep(1)

@@ -72,6 +72,7 @@ class Supercane():
         self.kit = MotorKit()   #HAT Controller Kit
         self.micro_servo = AngularServo(MICRO_SERVO_PIN, min_angle=-90, max_angle=90, pin_factory=pigpio_factory)
         self.big_servo = AngularServo(BIG_SERVO_PIN, min_angle=-90, max_angle=90, pin_factory=pigpio_factory)
+        self.run = True
 
         #Ultrasonic
         GPIO.setmode(GPIO.BCM)
@@ -94,7 +95,7 @@ class Supercane():
     def main(self):
         angle = 0
         angle_polarity = 0
-        while True:
+        while self.run:
             sleep(0.1)
             temp_location = [0,0]
 
@@ -160,6 +161,15 @@ class Supercane():
 
             #Return audio
             # print(self.location)
+
+
+    def stop(self):
+        self.run = False
+
+
+    def start(self):
+        self.run = True
+        self.main()
 
 
     def get_ultrasonic_distance(self):
@@ -373,8 +383,8 @@ class Supercane():
             print("Measurement stopped")
 
 
-if __name__ == "__main__":
-    cane = Supercane()
+# if __name__ == "__main__":
+#     cane = Supercane()
 
 
 
