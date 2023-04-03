@@ -53,7 +53,7 @@ class RunPython(threading.Thread):
         self.process = subprocess.run(["python3", "SupercaneMain.py"], capture_output=True, text=True)
 
     def close(self):
-        self.process.terminate()
+        subprocess.run(["^c"], capture_output=True, text=True)
 
         # for message in self._args:
         #     if self._lock:
