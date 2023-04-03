@@ -51,9 +51,10 @@ class RunPython(threading.Thread):
 
     def run(self):
         # self.process = subprocess.run(["python3", "SupercaneMain.py"], capture_output=True, text=True)
-        self.process = subprocess.Popen(["python3", "SupercaneMain.py"])
+        self.process = subprocess.Popen(["python3", "SupercaneMain.py"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
     def close(self):
+        output, errors = self.process.communicate()
         self.process.kill()
         
         # subprocess.run(["^c"], capture_output=True, text=True)
