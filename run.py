@@ -29,6 +29,7 @@ import RPi.GPIO as GPIO
 import time
 import subprocess
 import os
+import signal
 import threading
 import logging
 
@@ -43,34 +44,34 @@ lock = None
 
 
 
-class RunPython(threading.Thread):
-    def __init__(self):
-        threading.Thread.__init__(self)
-        self.set = 0
-        self.cane = Supercane()
-        # self.process = None
-        # self._lock = toggle_lock
-
-    def run(self):
-        self.cane.start()
-
-        while True:
-            input_state = GPIO.input(BUTTON_PIN)
-            if input_state == False and self.set == 0:
-                self.cane.main()
-                print("set = 0")
-                time.sleep(1)
-                self.set = 1
-                pressed = True
-
-            Input_state = GPIO.input(BUTTON_PIN)
-
-            if input_state == False and self.set == 1:
-                self.cane.stop()
-
-                print("set = 1")
-                time.sleep(1)
-                self.set = 0
+# class RunPython(threading.Thread):
+#     def __init__(self):
+#         threading.Thread.__init__(self)
+#         self.set = 0
+#         self.cane = Supercane()
+#         # self.process = None
+#         # self._lock = toggle_lock
+#
+    # def run(self):
+    #     self.cane.start()
+    #
+    #     while True:
+    #         input_state = GPIO.input(BUTTON_PIN)
+    #         if input_state == False and self.set == 0:
+    #             self.cane.main()
+    #             print("set = 0")
+    #             time.sleep(1)
+    #             self.set = 1
+    #             pressed = True
+    #
+    #         Input_state = GPIO.input(BUTTON_PIN)
+    #
+    #         if input_state == False and self.set == 1:
+    #             self.cane.stop()
+    #
+    #             print("set = 1")
+    #             time.sleep(1)
+    #             self.set = 0
 
 
 
@@ -108,67 +109,59 @@ class RunPython(threading.Thread):
 # cane = None
 # first_run = False
 #
-# while True:
-#     input_state = GPIO.input(BUTTON_PIN)
-#     if input_state == False and set == 0:
-#         # subprocess.("/home/pi/securipi-rpicamtd.sh", shell=True)
-#         # p=subprocess.Popen( "/home/pi/securipi-picamtd.sh",shell=True,preexec_fn=os.setsid)
-#         # p=subprocess.Popen( "/home/pi/Supercane/SupercaneMain.py",shell=True,preexec_fn=os.setsid)
-#         # subprocess.call(['cd Supercane'])
-#         # subprocess.call(['python3 SupercaneMain.py'])
-#         # subprocess.run(["python", "SupercaneMain.py"])
-#
-#         # py_script.start()
-#         if first_run == False:
-#             cane = Supercane()
-#             cane.start()
-#             cane.main()
-#             first_run = True
-#         else:
-#             cane.start()
-#
-#         print("set = 0")
-#         time.sleep(1)
-#         set = 1
-#
-#
-#     Input_state = GPIO.input(BUTTON_PIN)
-#     if input_state == False and set == 1:
-#         cane.stop()
-#         cane.join()
-#
-#         # cane = Supercane()
-#         # py_script.setDaemo(False)
-#         # py_script.close()
-#
-#         # result = subprocess.run(["python3", "RESET.py"], capture_output=True, text=True)
-#         # sleep(0.5)
-#         # os.killpg(result.pid, signal.SIGTERM)
-#
-#         # print(result.stdout)
-#
-#
-#         print("set = 1")
-#         time.sleep(1)
-#         set = 0
+while True:
+    input_state = GPIO.input(BUTTON_PIN)
+    if input_state == False and set == 0:
+        # subprocess.("/home/pi/securipi-rpicamtd.sh", shell=True)
+        # p=subprocess.Popen( "/home/pi/securipi-picamtd.sh",shell=True,preexec_fn=os.setsid)
+        # p=subprocess.Popen( "/home/pi/Supercane/SupercaneMain.py",shell=True,preexec_fn=os.setsid)
+        # subprocess.call(['cd Supercane'])
+        # subprocess.call(['python3 SupercaneMain.py'])
+        # subprocess.run(["python", "SupercaneMain.py"])
+
+        # py_script.start()
+        # if first_run == False:
+        #     cane = Supercane()
+        #     cane.start()
+        #     cane.main()
+        #     first_run = True
+        # else:
+        #     cane.start()
+        # cmd = ['python3 SupercaneMain.py']
+        
+        cmd = ["python3", "SupercaneMain.py"]
+        pro = subprocess.Popen(cmd, stdout=subprocess.PIPE,
+                               shell=True, preexec_fn=os.setsid)
+
+        print("set = 0")
+        time.sleep(1)
+        set = 1
 
 
-thread1 = RunPython()
-# thread2 = Supercane()
-thread1.start()
-thread1.run()
+    Input_state = GPIO.input(BUTTON_PIN)
+    if input_state == False and set == 1:
+        cane.stop()
+        cane.join()
+
+        os.killpg(os.getpgid(pro.pid), signal.SIGTERM)
+
+        # cane = Supercane()
+        # py_script.setDaemo(False)
+        # py_script.close()
+
+        # result = subprocess.run(["python3", "RESET.py"], capture_output=True, text=True)
+        # sleep(0.5)
+        # os.killpg(result.pid, signal.SIGTERM)
+
+        # print(result.stdout)
 
 
-# while True:
-#     if thread1.set == 1 and pressed == True:
-#         cane.start()
-#         cane.main()
-#         pressed = False
-#
-#     if thread1.set == 0 and pressed == True:
-#         cane.stop()
-#         cane.join()
-#         pressed = False
+        print("set = 1")
+        time.sleep(1)
+        set = 0
+
+
+
 #
 
 
