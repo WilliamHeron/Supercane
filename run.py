@@ -2,7 +2,7 @@
 import signal
 
 from SupercaneMain import *
-
+from RESET import *
 #Coppied from SupercaneMain
 
 # from time import sleep
