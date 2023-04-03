@@ -172,7 +172,8 @@ class Supercane():
                     print("Couldn't reset haptic feedback")
                     pass
 
-
+        #RESET PI
+        self.reset()
         sleep(2)
         self.initial_state()    #Return to initial state
 
@@ -206,7 +207,7 @@ class Supercane():
             time.sleep(1)
             self.set = 0
             self.run = False
-            self.reset()
+
 
 
     def reset(self):
