@@ -67,6 +67,7 @@ HAPTIC_DISTANCE_THRESHOLD = 70 #in cm
 BUTTON_PIN = 18 #Button Pin
 STAIR_ULTRASONIC_GPIO_TRIGGER = 21  #ultrasonic sensor for stairs
 STAIR_ULTRASONIC_GPIO_ECHO = 20
+STAIR_DISTANCE_THRESHOLD = 200 #Stair distance threshold
 
 pigpio_factory = PiGPIOFactory()
 GPIO.setmode(GPIO.BCM)
@@ -154,12 +155,12 @@ class Supercane():
                 pass
 
             #Check for stairs
-            self.stair_check()
-            # try:
-            #
-            # except:
-            #     print("stair check failed")
-            #     pass
+
+            try:
+                self.stair_check()
+            except:
+                print("stair check failed")
+                pass
 
             distance_camera = self.get_camera_data()
             temp_location[1] = distance_ultra
@@ -169,7 +170,7 @@ class Supercane():
 
 
             #Wheel feedback
-            if self.location[1] < WHEEL_DISTANCE_THRESHOLD:
+            if self.location[1] < WHEEL_DISTANCE_THRESHOLD and self.stairs_found == False:
                 self.wheel_handler()
             else:
                 servo_val = self.big_servo_previous_val / 2 #brings the servo back to 0 slowly
@@ -246,6 +247,11 @@ class Supercane():
     def stair_check(self):
         stair_dist = self.get_stair_ultrasonic_distance()
         print("stair distance: " + str(stair_dist))
+        if stair_dist > STAIR_DISTANCE_THRESHOLD and stair_dist < 400:
+            self.stairs_found = True
+        else:
+            self.stairs_found = False
+
 
 
     def get_stair_ultrasonic_distance(self):
@@ -313,7 +319,11 @@ class Supercane():
         distance = (TimeElapsed * 34300) / 2
         distance = round(distance, 3)
 
+        if distance > 400:
+            distance = 400
+
         return distance
+
 
     def get_camera_data(self):
 
@@ -362,28 +372,39 @@ class Supercane():
             return self.location
 
 
-
     def haptic_handler(self):
         angle = self.location[0]
         distance = self.location[1]
 
-        front = math.sin(angle) * distance
-        side = math.cos(angle) * distance
+        if self.stairs_found == True:
+            try:
+                self.set_haptic_1(1)
+                self.set_haptic_2(1)
+                self.set_haptic_3(1)
 
-        front_magnitude = (HAPTIC_DISTANCE_THRESHOLD - front)/HAPTIC_DISTANCE_THRESHOLD
-        side_magnitude = (HAPTIC_DISTANCE_THRESHOLD - abs(side))/HAPTIC_DISTANCE_THRESHOLD
+            except ValueError:
+                print("haptic did not worked")
+                pass
 
-        try:
-            self.set_haptic_2(front_magnitude) #Front Haptic
+        else:
+            front = math.sin(angle) * distance
+            side = math.cos(angle) * distance
 
-            if side < 0:
-                self.set_haptic_3(side_magnitude)
-            elif side > 0:
-                self.set_haptic_1(side_magnitude)
+            front_magnitude = (HAPTIC_DISTANCE_THRESHOLD - front)/HAPTIC_DISTANCE_THRESHOLD
+            side_magnitude = (HAPTIC_DISTANCE_THRESHOLD - abs(side))/HAPTIC_DISTANCE_THRESHOLD
 
-        except ValueError:
-            print("got magnitude bigger than 1 : " + str(side_magnitude))
-            pass
+            try:
+
+                self.set_haptic_2(front_magnitude) #Front Haptic
+
+                if side < 0:
+                    self.set_haptic_3(side_magnitude)
+                elif side > 0:
+                    self.set_haptic_1(side_magnitude)
+
+            except ValueError:
+                print("got magnitude bigger than 1 : " + str(side_magnitude))
+                pass
 
     def wheel_handler(self):
         angle = self.location[0]
