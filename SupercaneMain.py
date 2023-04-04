@@ -154,11 +154,12 @@ class Supercane():
                 pass
 
             #Check for stairs
-            try:
-                self.stair_check()
-            except:
-                print("stair check failed")
-                pass
+            self.stair_check()
+            # try:
+            #
+            # except:
+            #     print("stair check failed")
+            #     pass
 
             distance_camera = self.get_camera_data()
             temp_location[1] = distance_ultra
