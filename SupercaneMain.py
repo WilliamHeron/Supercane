@@ -67,7 +67,7 @@ HAPTIC_DISTANCE_THRESHOLD = 70 #in cm
 BUTTON_PIN = 18 #Button Pin
 STAIR_ULTRASONIC_GPIO_TRIGGER = 21  #ultrasonic sensor for stairs
 STAIR_ULTRASONIC_GPIO_ECHO = 20
-STAIR_DISTANCE_THRESHOLD = 200 #Stair distance threshold
+STAIR_DISTANCE_THRESHOLD = 180 #Stair distance threshold
 
 pigpio_factory = PiGPIOFactory()
 GPIO.setmode(GPIO.BCM)
@@ -142,7 +142,7 @@ class Supercane():
                 print("couldn't set servo angle")
                 pass
 
-            print(ang)
+            # print(ang)
             temp_location[0] = ang
 
             #Read Distance
@@ -200,13 +200,15 @@ class Supercane():
                     print("Couldn't reset haptic feedback")
                     pass
 
+            print(self.location)
+
         #RESET PI
         self.reset()
         sleep(2)
         self.initial_state()    #Return to initial state
 
             #Return audio
-            # print(self.location)
+
 
     def initial_state(self):
         button_status = True
@@ -261,6 +263,7 @@ class Supercane():
             else:
                 self.stairs_found = False
 
+            print(stair_dist)
         except:
             print("stair distance not found")
             pass
@@ -429,7 +432,7 @@ class Supercane():
 
         # print("wheel angle: " + str(big_servo_angle))
         try:
-            print("big servo angle: " + str(big_servo_angle))
+            # print("big servo angle: " + str(big_servo_angle))
             # big_servo_angle = 0
             self.set_big_servo(big_servo_angle)
             self.big_servo_previous_val = big_servo_angle
