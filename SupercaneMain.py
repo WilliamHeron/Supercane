@@ -67,7 +67,7 @@ HAPTIC_DISTANCE_THRESHOLD = 70 #in cm
 BUTTON_PIN = 18 #Button Pin
 STAIR_ULTRASONIC_GPIO_TRIGGER = 21  #ultrasonic sensor for stairs
 STAIR_ULTRASONIC_GPIO_ECHO = 20
-STAIR_DISTANCE_THRESHOLD = 170 #Stair distance threshold
+STAIR_DISTANCE_THRESHOLD = 120 #Stair distance threshold
 
 pigpio_factory = PiGPIOFactory()
 GPIO.setmode(GPIO.BCM)
@@ -416,7 +416,7 @@ class Supercane():
                 self.set_haptic_1(side_magnitude)
 
         except ValueError:
-            print("got magnitude bigger than 1 : " + str(side_magnitude))
+            print("invalid haptic value: " + str(side_magnitude))
             pass
 
     def wheel_handler(self):
