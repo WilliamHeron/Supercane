@@ -67,7 +67,7 @@ HAPTIC_DISTANCE_THRESHOLD = 70 #in cm
 BUTTON_PIN = 18 #Button Pin
 STAIR_ULTRASONIC_GPIO_TRIGGER = 21  #ultrasonic sensor for stairs
 STAIR_ULTRASONIC_GPIO_ECHO = 20
-STAIR_DISTANCE_THRESHOLD = 180 #Stair distance threshold
+STAIR_DISTANCE_THRESHOLD = 170 #Stair distance threshold
 
 pigpio_factory = PiGPIOFactory()
 GPIO.setmode(GPIO.BCM)
@@ -402,6 +402,9 @@ class Supercane():
 
         front_magnitude = (HAPTIC_DISTANCE_THRESHOLD - front)/HAPTIC_DISTANCE_THRESHOLD
         side_magnitude = (HAPTIC_DISTANCE_THRESHOLD - abs(side))/HAPTIC_DISTANCE_THRESHOLD
+        front_magnitude = round(front_magnitude, 4)
+        side_magnitude = round(side_magnitude, 4)
+
 
         try:
 
