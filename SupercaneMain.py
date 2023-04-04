@@ -155,7 +155,6 @@ class Supercane():
                 pass
 
             #Check for stairs
-
             try:
                 self.stair_check()
             except:
@@ -178,7 +177,18 @@ class Supercane():
 
 
             #Haptic Feedback
-            if self.location[1] < HAPTIC_DISTANCE_THRESHOLD:
+
+            if self.stairs_found == True:
+                try:
+                    self.set_haptic_1(1)
+                    self.set_haptic_2(1)
+                    self.set_haptic_3(1)
+
+                except ValueError:
+                    print("haptic did not worked")
+                    pass
+
+            elif self.location[1] < HAPTIC_DISTANCE_THRESHOLD:
                 self.haptic_handler() #Handles haptic feedback proportions
 
 
@@ -376,35 +386,25 @@ class Supercane():
         angle = self.location[0]
         distance = self.location[1]
 
-        if self.stairs_found == True:
-            try:
-                self.set_haptic_1(1)
-                self.set_haptic_2(1)
-                self.set_haptic_3(1)
 
-            except ValueError:
-                print("haptic did not worked")
-                pass
+        front = math.sin(angle) * distance
+        side = math.cos(angle) * distance
 
-        else:
-            front = math.sin(angle) * distance
-            side = math.cos(angle) * distance
+        front_magnitude = (HAPTIC_DISTANCE_THRESHOLD - front)/HAPTIC_DISTANCE_THRESHOLD
+        side_magnitude = (HAPTIC_DISTANCE_THRESHOLD - abs(side))/HAPTIC_DISTANCE_THRESHOLD
 
-            front_magnitude = (HAPTIC_DISTANCE_THRESHOLD - front)/HAPTIC_DISTANCE_THRESHOLD
-            side_magnitude = (HAPTIC_DISTANCE_THRESHOLD - abs(side))/HAPTIC_DISTANCE_THRESHOLD
+        try:
 
-            try:
+            self.set_haptic_2(front_magnitude) #Front Haptic
 
-                self.set_haptic_2(front_magnitude) #Front Haptic
+            if side < 0:
+                self.set_haptic_3(side_magnitude)
+            elif side > 0:
+                self.set_haptic_1(side_magnitude)
 
-                if side < 0:
-                    self.set_haptic_3(side_magnitude)
-                elif side > 0:
-                    self.set_haptic_1(side_magnitude)
-
-            except ValueError:
-                print("got magnitude bigger than 1 : " + str(side_magnitude))
-                pass
+        except ValueError:
+            print("got magnitude bigger than 1 : " + str(side_magnitude))
+            pass
 
     def wheel_handler(self):
         angle = self.location[0]
