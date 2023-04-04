@@ -62,8 +62,8 @@ MICRO_SERVO_CENTER_POINT = 0
 BIG_SERVO_PIN = 12
 DEFAULT_HAPTIC_VELOCITY = 0.0
 WHEEL_OBJECT_OFFSET_ANGLE = 45 #in degrees
-WHEEL_DISTANCE_THRESHOLD = 100 #in cm
-HAPTIC_DISTANCE_THRESHOLD = 50 #in cm
+WHEEL_DISTANCE_THRESHOLD = 110 #in cm
+HAPTIC_DISTANCE_THRESHOLD = 70 #in cm
 BUTTON_PIN = 18 #Button Pin
 STAIR_ULTRASONIC_GPIO_TRIGGER = 21  #ultrasonic sensor for stairs
 STAIR_ULTRASONIC_GPIO_ECHO = 20
@@ -248,21 +248,21 @@ class Supercane():
 
     def get_stair_ultrasonic_distance(self):
 
-        GPIO.output(self.GPIO_TRIGGER, True)
+        GPIO.output(self.STAIR_GPIO_TRIGGER, True)
 
         # set Trigger after 0.01ms to LOW
         time.sleep(0.00001)
-        GPIO.output(self.GPIO_TRIGGER, False)
+        GPIO.output(self.STAIR_GPIO_TRIGGER, False)
         StartTime = time.time()
         StopTime = time.time()
 
         try:
             # save StartTime
-            while GPIO.input(self.GPIO_ECHO) == 0:
+            while GPIO.input(self.STAIR_GPIO_ECHO) == 0:
                 StartTime = time.time()
 
             # save time of arrival
-            while GPIO.input(self.GPIO_ECHO) == 1:
+            while GPIO.input(self.STAIR_GPIO_ECHO) == 1:
                 StopTime = time.time()
 
         except ValueError:
