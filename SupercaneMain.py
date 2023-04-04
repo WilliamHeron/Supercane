@@ -97,8 +97,8 @@ class Supercane():
         GPIO.setmode(GPIO.BCM)
         self.STAIR_GPIO_TRIGGER = STAIR_ULTRASONIC_GPIO_TRIGGER
         self.STAIR_GPIO_ECHO = STAIR_ULTRASONIC_GPIO_ECHO
-        GPIO.setup(self.GPIO_TRIGGER, GPIO.OUT)
-        GPIO.setup(self.GPIO_ECHO, GPIO.IN)
+        GPIO.setup(self.STAIR_GPIO_TRIGGER, GPIO.OUT)
+        GPIO.setup(self.STAIR_GPIO_ECHO, GPIO.IN)
 
 
 
