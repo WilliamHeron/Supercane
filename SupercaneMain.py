@@ -335,7 +335,7 @@ class Supercane():
         angle = self.location[0]
         distance = self.location[1]
 
-        percent_reduction = 0.90 #reducing the dramatic turn of the wheel
+        percent_reduction = 1.1 #reducing the dramatic turn of the wheel
         big_servo_angle = 0
 
         #Formula says that:     degree response from the wheel = servo_angle - 90degrees * (threshold-distance)/threshold * 0.90
