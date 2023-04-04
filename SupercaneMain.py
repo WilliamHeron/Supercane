@@ -156,6 +156,8 @@ class Supercane():
             #Wheel feedback
             if self.location[1] < WHEEL_DISTANCE_THRESHOLD:
                 self.wheel_handler()
+            else:
+                self.set_big_servo(0)
 
 
             #Haptic Feedback
@@ -204,7 +206,6 @@ class Supercane():
             time.sleep(1)
             self.set = 0
             self.run = False
-
 
 
     def reset(self):
@@ -346,6 +347,7 @@ class Supercane():
         # print("wheel angle: " + str(big_servo_angle))
         try:
             print("big servo angle: " + str(big_servo_angle))
+            git_servo_angle = 0
             self.set_big_servo(big_servo_angle)
         except ValueError:
             print("servo value not valid : " + str(big_servo_angle))
