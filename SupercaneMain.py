@@ -275,6 +275,7 @@ class Supercane():
 
 
     def set_big_servo(self, degree):
+        degree = -degree
         self.big_servo.angle = degree
 
     def set_haptic_1(self, velocity=DEFAULT_HAPTIC_VELOCITY):
@@ -347,7 +348,7 @@ class Supercane():
         # print("wheel angle: " + str(big_servo_angle))
         try:
             print("big servo angle: " + str(big_servo_angle))
-            big_servo_angle = 0
+            # big_servo_angle = 0
             self.set_big_servo(big_servo_angle)
         except ValueError:
             print("servo value not valid : " + str(big_servo_angle))
