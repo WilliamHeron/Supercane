@@ -258,7 +258,7 @@ class Supercane():
     def stair_check(self):
         try:
             stair_dist = self.get_stair_ultrasonic_distance()
-            if stair_dist > STAIR_DISTANCE_THRESHOLD and stair_dist < 400:
+            if stair_dist > STAIR_DISTANCE_THRESHOLD:
                 self.stairs_found = True
             else:
                 self.stairs_found = False
@@ -402,8 +402,8 @@ class Supercane():
 
         front_magnitude = (HAPTIC_DISTANCE_THRESHOLD - front)/HAPTIC_DISTANCE_THRESHOLD
         side_magnitude = (HAPTIC_DISTANCE_THRESHOLD - abs(side))/HAPTIC_DISTANCE_THRESHOLD
-        front_magnitude = round(front_magnitude, 4)
-        side_magnitude = round(side_magnitude, 4)
+        front_magnitude = round(front_magnitude, 2)
+        side_magnitude = round(side_magnitude, 2)
 
 
         try:
@@ -423,7 +423,7 @@ class Supercane():
         angle = self.location[0]
         distance = self.location[1]
 
-        percent_reduction = 1.3 #reducing the dramatic turn of the wheel
+        percent_reduction = 1.42 #reducing the dramatic turn of the wheel
         big_servo_angle = 0
 
         #Formula says that:     degree response from the wheel = servo_angle - 90degrees * (threshold-distance)/threshold * 0.90
