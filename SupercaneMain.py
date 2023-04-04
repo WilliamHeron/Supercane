@@ -62,7 +62,7 @@ MICRO_SERVO_CENTER_POINT = 0
 BIG_SERVO_PIN = 12
 DEFAULT_HAPTIC_VELOCITY = 0.0
 WHEEL_OBJECT_OFFSET_ANGLE = 45 #in degrees
-WHEEL_DISTANCE_THRESHOLD = 110 #in cm
+WHEEL_DISTANCE_THRESHOLD = 150 #in cm
 HAPTIC_DISTANCE_THRESHOLD = 70 #in cm
 BUTTON_PIN = 18 #Button Pin
 STAIR_ULTRASONIC_GPIO_TRIGGER = 21  #ultrasonic sensor for stairs
@@ -161,10 +161,11 @@ class Supercane():
                 print("stair check failed")
                 pass
 
-            distance_camera = self.get_camera_data()
-            temp_location[1] = distance_ultra
+
+            # distance_camera = self.get_camera_data()
 
             #Assess distance/angle
+            temp_location[1] = distance_ultra
             self.location = self.update_location(temp_location)
 
 
@@ -177,7 +178,6 @@ class Supercane():
 
 
             #Haptic Feedback
-
             if self.stairs_found == True:
                 try:
                     self.set_haptic_1(1)
@@ -190,7 +190,6 @@ class Supercane():
 
             elif self.location[1] < HAPTIC_DISTANCE_THRESHOLD:
                 self.haptic_handler() #Handles haptic feedback proportions
-
 
             else:
                 try:
@@ -255,12 +254,16 @@ class Supercane():
 
 
     def stair_check(self):
-        stair_dist = self.get_stair_ultrasonic_distance()
-        print("stair distance: " + str(stair_dist))
-        if stair_dist > STAIR_DISTANCE_THRESHOLD and stair_dist < 400:
-            self.stairs_found = True
-        else:
-            self.stairs_found = False
+        try:
+            stair_dist = self.get_stair_ultrasonic_distance()
+            if stair_dist > STAIR_DISTANCE_THRESHOLD and stair_dist < 400:
+                self.stairs_found = True
+            else:
+                self.stairs_found = False
+
+        except:
+            print("stair distance not found")
+            pass
 
 
 
@@ -347,8 +350,12 @@ class Supercane():
 
         self.micro_servo.angle = degree
 
-
     def set_big_servo(self, degree):
+        if degree > 90:
+            degree = 90
+        elif degree < -90:
+            degree = -90
+
         degree = -degree
         self.big_servo.angle = degree
 
