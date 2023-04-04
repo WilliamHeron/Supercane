@@ -42,7 +42,6 @@ import time
 from signal import pause
 
 #Board
-import board
 from adafruit_motorkit import MotorKit
 import RPi.GPIO as GPIO
 
@@ -53,9 +52,6 @@ from gpiozero import AngularServo
 from gpiozero.pins.pigpio import PiGPIOFactory
 
 
-
-
-import threading
 
 
 # ----- Global Variables -----
@@ -69,6 +65,8 @@ WHEEL_OBJECT_OFFSET_ANGLE = 45 #in degrees
 WHEEL_DISTANCE_THRESHOLD = 100 #in cm
 HAPTIC_DISTANCE_THRESHOLD = 50 #in cm
 BUTTON_PIN = 18 #Button Pin
+STAIR_ULTRASONIC_GPIO_TRIGGER = 21  #ultrasonic sensor for stairs
+STAIR_ULTRASONIC_GPIO_ECHO = 20
 
 pigpio_factory = PiGPIOFactory()
 GPIO.setmode(GPIO.BCM)
@@ -84,13 +82,20 @@ class Supercane():
         self.run = True
         self.set = 0
         self.big_servo_previous_val = 0
+        self.stairs_found = False
+
 
         #Ultrasonic
         GPIO.setmode(GPIO.BCM)
         # set GPIO Pins
         self.GPIO_TRIGGER = ULTRASONIC_GPIO_TRIGGER
         self.GPIO_ECHO = ULTRASONIC_GPIO_ECHO
-        # set GPIO direction (IN / OUT)
+        GPIO.setup(self.GPIO_TRIGGER, GPIO.OUT)
+        GPIO.setup(self.GPIO_ECHO, GPIO.IN)
+
+        #for stair ultrasonic sensor
+        self.STAIR_GPIO_TRIGGER = STAIR_ULTRASONIC_GPIO_TRIGGER
+        self.STAIR_GPIO_ECHO = STAIR_ULTRASONIC_GPIO_ECHO
         GPIO.setup(self.GPIO_TRIGGER, GPIO.OUT)
         GPIO.setup(self.GPIO_ECHO, GPIO.IN)
 
@@ -145,6 +150,13 @@ class Supercane():
             except ValueError:
                 distance_ultra = 1000000
                 print("couldn't read ultrasonic distance")
+                pass
+
+            #Check for stairs
+            try:
+                self.stair_check()
+            except:
+                print("stair check failed")
                 pass
 
             distance_camera = self.get_camera_data()
@@ -228,6 +240,44 @@ class Supercane():
         self.run = True
         self.main()
 
+
+    def stair_check(self):
+        stair_dist = self.get_stair_ultrasonic_distance()
+        print("stair distance: " + str(stair_dist))
+
+
+    def get_stair_ultrasonic_distance(self):
+
+        GPIO.output(self.GPIO_TRIGGER, True)
+
+        # set Trigger after 0.01ms to LOW
+        time.sleep(0.00001)
+        GPIO.output(self.GPIO_TRIGGER, False)
+        StartTime = time.time()
+        StopTime = time.time()
+
+        try:
+            # save StartTime
+            while GPIO.input(self.GPIO_ECHO) == 0:
+                StartTime = time.time()
+
+            # save time of arrival
+            while GPIO.input(self.GPIO_ECHO) == 1:
+                StopTime = time.time()
+
+        except ValueError:
+            print("Ultrasonic Reading didn't work inside 'get_ultrasonic_distance()''")
+            StartTime = 0
+            StopTime = 1
+            pass
+
+        TimeElapsed = StopTime - StartTime
+        # multiply with the sonic speed (34300 cm/s)
+        # and divide by 2, because there and back
+        distance = (TimeElapsed * 34300) / 2
+        distance = round(distance, 3)
+
+        return distance
 
 
     def get_ultrasonic_distance(self):
