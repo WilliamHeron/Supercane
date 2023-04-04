@@ -83,6 +83,7 @@ class Supercane():
         self.big_servo = AngularServo(BIG_SERVO_PIN, min_angle=-90, max_angle=90, pin_factory=pigpio_factory)
         self.run = True
         self.set = 0
+        self.big_servo_previous_val = 0
 
         #Ultrasonic
         GPIO.setmode(GPIO.BCM)
@@ -157,7 +158,8 @@ class Supercane():
             if self.location[1] < WHEEL_DISTANCE_THRESHOLD:
                 self.wheel_handler()
             else:
-                self.set_big_servo(0)
+                servo_val = self.big_servo_previous_val / 2 #brings the servo back to 0 slowly
+                self.set_big_servo(servo_val)
 
 
             #Haptic Feedback
@@ -350,6 +352,7 @@ class Supercane():
             print("big servo angle: " + str(big_servo_angle))
             # big_servo_angle = 0
             self.set_big_servo(big_servo_angle)
+            self.big_servo_previous_val = big_servo_angle
         except ValueError:
             print("servo value not valid : " + str(big_servo_angle))
             pass
