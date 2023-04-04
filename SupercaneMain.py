@@ -347,7 +347,7 @@ class Supercane():
         # print("wheel angle: " + str(big_servo_angle))
         try:
             print("big servo angle: " + str(big_servo_angle))
-            git_servo_angle = 0
+            big_servo_angle = 0
             self.set_big_servo(big_servo_angle)
         except ValueError:
             print("servo value not valid : " + str(big_servo_angle))
