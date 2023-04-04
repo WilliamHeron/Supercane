@@ -94,6 +94,7 @@ class Supercane():
         GPIO.setup(self.GPIO_ECHO, GPIO.IN)
 
         #for stair ultrasonic sensor
+        GPIO.setmode(GPIO.BCM)
         self.STAIR_GPIO_TRIGGER = STAIR_ULTRASONIC_GPIO_TRIGGER
         self.STAIR_GPIO_ECHO = STAIR_ULTRASONIC_GPIO_ECHO
         GPIO.setup(self.GPIO_TRIGGER, GPIO.OUT)
@@ -148,7 +149,7 @@ class Supercane():
                 distance_ultra = self.get_ultrasonic_distance()
 
             except ValueError:
-                distance_ultra = 1000000
+                distance_ultra = 300
                 print("couldn't read ultrasonic distance")
                 pass
 
@@ -387,7 +388,7 @@ class Supercane():
         angle = self.location[0]
         distance = self.location[1]
 
-        percent_reduction = 1.1 #reducing the dramatic turn of the wheel
+        percent_reduction = 1.3 #reducing the dramatic turn of the wheel
         big_servo_angle = 0
 
         #Formula says that:     degree response from the wheel = servo_angle - 90degrees * (threshold-distance)/threshold * 0.90
