@@ -116,7 +116,7 @@ class Supercane():
             #Micro Servo
             ANG_UPPER_LIMIT = 140 + MICRO_SERVO_CENTER_POINT
             ANG_LOWER_LIMIT = 40 + MICRO_SERVO_CENTER_POINT
-            INCRIMENT_BY = 10
+            INCRIMENT_BY = 20
 
             if angle_polarity == 0:
                 angle += INCRIMENT_BY
